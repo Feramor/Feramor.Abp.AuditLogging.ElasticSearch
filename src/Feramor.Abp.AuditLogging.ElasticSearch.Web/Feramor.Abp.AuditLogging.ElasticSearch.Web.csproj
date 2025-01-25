@@ -10,6 +10,11 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Feramor.Abp.AuditLogging.ElasticSearch.Web</RootNamespace>
     <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
+    <AssemblyName>Feramor.Abp.AuditLogging.ElasticSearch.Web</AssemblyName>
+    <PackageId>Feramor.Abp.AuditLogging.ElasticSearch.Web</PackageId>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
   </PropertyGroup>
 
   <ItemGroup>

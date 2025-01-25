@@ -7,6 +7,11 @@
     <Nullable>enable</Nullable>
     <RootNamespace>Feramor.Abp.AuditLogging.ElasticSearch</RootNamespace>
     <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
+    <AssemblyName>Feramor.Abp.AuditLogging.ElasticSearch.Domain.Shared</AssemblyName>
+    <PackageId>Feramor.Abp.AuditLogging.ElasticSearch.Domain.Shared</PackageId>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
   </PropertyGroup>
 
   <ItemGroup>

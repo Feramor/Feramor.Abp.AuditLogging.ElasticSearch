@@ -6,6 +6,11 @@
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <RootNamespace>Feramor.Abp.AuditLogging.ElasticSearch</RootNamespace>
+    <AssemblyName>Feramor.Abp.AuditLogging.ElasticSearch.Domain</AssemblyName>
+    <PackageId>Feramor.Abp.AuditLogging.ElasticSearch.Domain</PackageId>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
   </PropertyGroup>
 
   <ItemGroup>

@@ -65,14 +65,26 @@ public class ElasticSearchAuditLogSettingsAppService : ElasticSearchAppService, 
         {
             case ElasticSearchAuthenticationType.BasicAuthentication:
                 Check.NotNullOrWhiteSpace(input.Username, nameof(input.Username));
-                Check.NotNullOrWhiteSpace(input.Password, nameof(input.Password));
+                if (ElasticSearchAuditLogSettings.Password.IsNullOrWhiteSpace())
+                {
+                    Check.NotNullOrWhiteSpace(input.Password, nameof(input.Password));
+                }
                 break;
             case ElasticSearchAuthenticationType.ApiKeyAuthentication:
-                Check.NotNullOrWhiteSpace(input.ApiKey, nameof(input.ApiKey));
+                if (ElasticSearchAuditLogSettings.ApiKey.IsNullOrWhiteSpace())
+                {
+                    Check.NotNullOrWhiteSpace(input.ApiKey, nameof(input.ApiKey));
+                }
                 break;
             case ElasticSearchAuthenticationType.Base64ApiKey:
-                Check.NotNullOrWhiteSpace(input.ApiKeyId, nameof(input.ApiKeyId));
-                Check.NotNullOrWhiteSpace(input.ApiKey, nameof(input.ApiKey));
+                if (ElasticSearchAuditLogSettings.ApiKeyId.IsNullOrWhiteSpace())
+                {
+                    Check.NotNullOrWhiteSpace(input.ApiKeyId, nameof(input.ApiKeyId));
+                }
+                if (ElasticSearchAuditLogSettings.ApiKey.IsNullOrWhiteSpace())
+                {
+                    Check.NotNullOrWhiteSpace(input.ApiKey, nameof(input.ApiKey));
+                }
                 break;
             case null:
                 break;
