@@ -2,6 +2,7 @@
 
 public static class ElasticSearchErrorCodes
 {
-    public const string UriMustStartWithHttpOrHttps = "Error:000001";
-    public const string UriMustStartWithHttps = "Error:000002";
+    public const string UriMustStartWithHttpOrHttps = "ErrorCodes:Error:000001";
+    public const string UriMustStartWithHttps = "ErrorCodes:Error:000002";
+    public const string TestFailed = "ErrorCodes:Error:000003";
 }

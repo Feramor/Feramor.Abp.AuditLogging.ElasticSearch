@@ -4,6 +4,7 @@ using Feramor.Abp.AuditLogging.ElasticSearch.Localization;
 using Volo.Abp.AuditLogging;
 using Volo.Abp.Domain;
 using Volo.Abp.Localization.ExceptionHandling;
+using Volo.Abp.SettingManagement;
 using Volo.Abp.Validation;
 using Volo.Abp.Validation.Localization;
 using Volo.Abp.VirtualFileSystem;
@@ -13,6 +14,7 @@ namespace Feramor.Abp.AuditLogging.ElasticSearch;
 [DependsOn(
     typeof(AbpValidationModule),
     typeof(AbpAuditLoggingDomainSharedModule),
+    typeof(AbpSettingManagementDomainSharedModule),
     typeof(AbpDddDomainSharedModule)
 )]
 public class ElasticSearchDomainSharedModule : AbpModule
@@ -35,6 +37,7 @@ public class ElasticSearchDomainSharedModule : AbpModule
         Configure<AbpExceptionLocalizationOptions>(options =>
         {
             options.MapCodeNamespace("ElasticSearch", typeof(ElasticSearchResource));
+            options.MapCodeNamespace("ErrorCodes", typeof(ElasticSearchResource));
         });
     }
 }

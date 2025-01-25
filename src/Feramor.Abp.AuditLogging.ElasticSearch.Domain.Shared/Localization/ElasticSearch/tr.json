@@ -1,7 +1,8 @@
 {
   "culture": "tr",
   "texts": {
-    "Error:000001":  "URI, http(s):// ile başlamalıdır.",
-    "Error:000002": "URI, https:// ile başlamalıdır."
+    "ErrorCodes:Error:000001": "URI, http(s):// ile başlamalıdır.",
+    "ErrorCodes:Error:000002": "URI, https:// ile başlamalıdır.",
+    "ErrorCodes:Error:000003": "Elastic Search sunucusuna bağlantı testi başarısız oldu."
   }
 }

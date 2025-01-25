@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Elastic.Clients.Elasticsearch;
 using Elastic.Transport;
 using Feramor.Abp.AuditLogging.ElasticSearch.Enums;
+using Feramor.Abp.AuditLogging.ElasticSearch.Managers;
 using Feramor.Abp.AuditLogging.ElasticSearch.Permissions;
 using Feramor.Abp.AuditLogging.ElasticSearch.Settings;
 using Microsoft.AspNetCore.Authorization;
@@ -18,11 +19,13 @@ public class ElasticSearchAuditLogSettingsAppService : ElasticSearchAppService, 
 {
     private protected ElasticSearchAuditLogSettings ElasticSearchAuditLogSettings { get; init; }
     private readonly ISettingManager _settingManager;
+    private readonly IElasticSearchManager _elasticSearchManager;
 
     
-    public ElasticSearchAuditLogSettingsAppService(IOptions<ElasticSearchAuditLogSettings> elasticSearchAuditLogSettings, ISettingManager settingManager)
+    public ElasticSearchAuditLogSettingsAppService(IOptions<ElasticSearchAuditLogSettings> elasticSearchAuditLogSettings, ISettingManager settingManager, IElasticSearchManager elasticSearchManager)
     {
         _settingManager = settingManager;
+        _elasticSearchManager = elasticSearchManager;
         ElasticSearchAuditLogSettings = elasticSearchAuditLogSettings.Value;
     }
     
@@ -81,7 +84,7 @@ public class ElasticSearchAuditLogSettingsAppService : ElasticSearchAppService, 
         await _settingManager.SetGlobalAsync(ElasticSearchSettings.Uri, input.Uri);
         await _settingManager.SetGlobalAsync(ElasticSearchSettings.UseSsl, input.UseSsl.ToString());
         await _settingManager.SetGlobalAsync(ElasticSearchSettings.SslFingerprint, input.SslFingerprint);
-        await _settingManager.SetGlobalAsync(ElasticSearchSettings.AuthenticationType, input.AuthenticationType.ToString());
+        await _settingManager.SetGlobalAsync(ElasticSearchSettings.AuthenticationType, ((int?)input.AuthenticationType)?.ToString());
         await _settingManager.SetGlobalAsync(ElasticSearchSettings.Username, input.Username);
         await _settingManager.SetGlobalAsync(ElasticSearchSettings.Password, input.Password);
         await _settingManager.SetGlobalAsync(ElasticSearchSettings.ApiKey, input.ApiKey);
@@ -98,5 +101,10 @@ public class ElasticSearchAuditLogSettingsAppService : ElasticSearchAppService, 
         ElasticSearchAuditLogSettings.ApiKey = input.ApiKey;
         ElasticSearchAuditLogSettings.ApiKeyId = input.ApiKeyId;
         ElasticSearchAuditLogSettings.Index = input.Index;
+    }
+
+    public Task<bool> TestConnectionAsync()
+    {
+        return _elasticSearchManager.TestConnectionAsync();
     }
 }

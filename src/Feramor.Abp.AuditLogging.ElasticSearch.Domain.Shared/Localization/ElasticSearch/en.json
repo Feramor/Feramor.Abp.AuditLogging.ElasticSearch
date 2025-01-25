@@ -1,7 +1,8 @@
 {
   "culture": "en",
   "texts": {
-    "Error:000001":  "URI Must start with http(s)://",
-    "Error:000002": "URI Must start with https://"
+    "ErrorCodes:Error:000001": "URI must start with http(s)://",
+    "ErrorCodes:Error:000002": "URI must start with https://",
+    "ErrorCodes:Error:000003": "Connection test to the Elastic Search server failed."
   }
 }
