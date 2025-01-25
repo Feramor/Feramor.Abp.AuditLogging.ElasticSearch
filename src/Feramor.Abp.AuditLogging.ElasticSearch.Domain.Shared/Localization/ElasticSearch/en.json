@@ -1,0 +1,7 @@
+{
+  "culture": "en",
+  "texts": {
+    "Error:000001":  "URI Must start with http(s)://",
+    "Error:000002": "URI Must start with https://"
+  }
+}

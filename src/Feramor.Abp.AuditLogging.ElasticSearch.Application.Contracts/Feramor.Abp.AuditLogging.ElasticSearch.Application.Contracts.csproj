@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Feramor.Abp.AuditLogging.ElasticSearch</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.Ddd.Application.Contracts" Version="9.0.4" />
+    <PackageReference Include="Volo.Abp.Authorization" Version="9.0.4" />
+    <ProjectReference Include="..\Feramor.Abp.AuditLogging.ElasticSearch.Domain.Shared\Feramor.Abp.AuditLogging.ElasticSearch.Domain.Shared.csproj" />
+  </ItemGroup>
+
+</Project>

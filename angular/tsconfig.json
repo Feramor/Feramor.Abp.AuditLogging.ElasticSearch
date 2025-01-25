@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.prod.json",
+  "compilerOptions": {
+    "paths": {
+      "@feramor.Abp.Audit-logging/elastic-search": [
+        "projects/elastic-search/src/public-api.ts"
+      ],
+      "@feramor.Abp.Audit-logging/elastic-search/config": [
+        "projects/elastic-search/config/src/public-api.ts"
+      ],
+      "@proxy": ["projects/elastic-search/src/lib/proxy/index.ts"],
+      "@proxy/*": ["projects/elastic-search/src/lib/proxy/*"]
+    }
+  }
+}
