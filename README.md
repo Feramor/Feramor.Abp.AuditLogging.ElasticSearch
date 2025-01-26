@@ -1,4 +1,4 @@
-[![Build Status](https://dev.azure.com/feramor/Pipelines/_apis/build/status%2FFeramor.Feramor.Abp.AuditLogging.ElasticSearch?branchName=main)](https://dev.azure.com/feramor/Pipelines/_build/latest?definitionId=3&branchName=main)
+[![Build Status](https://dev.azure.com/feramor/Pipelines/_apis/build/status%2FFeramor.Feramor.Abp.AuditLogging.ElasticSearch?branchName=main)](https://dev.azure.com/feramor/Pipelines/_build/latest?definitionId=3&branchName=main) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Feramor_Feramor.Abp.AuditLogging.ElasticSearch&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Feramor_Feramor.Abp.AuditLogging.ElasticSearch) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Feramor_Feramor.Abp.AuditLogging.ElasticSearch&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Feramor_Feramor.Abp.AuditLogging.ElasticSearch)
 
 ## ℹ️ Description
 
