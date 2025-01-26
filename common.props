@@ -6,7 +6,7 @@
     <NoWarn>$(NoWarn);CS1591</NoWarn>
     <AbpProjectType>module</AbpProjectType>
     <PackageProjectUrl>https://github.com/Feramor/</PackageProjectUrl>
-    <PackageLicenseExpression>GPL-3.0</PackageLicenseExpression>
+    <PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
 	<RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/Feramor/Feramor.Abp.AuditLogging.ElasticSearch/</RepositoryUrl>
     <PackageReadmeFile>NuGet.md</PackageReadmeFile>
@@ -14,6 +14,7 @@
 	<GenerateDocumentationFile>true</GenerateDocumentationFile>
     <!-- Include symbol files (*.pdb) in the built .nupkg -->
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+	<Description>Elasticsearch Audit Logging Store for ABP.io</Description>
   </PropertyGroup>
     <ItemGroup>
     <None Include="..\..\NuGet.md" Pack="true" PackagePath="\"/>

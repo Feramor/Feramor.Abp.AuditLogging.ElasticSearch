@@ -20,10 +20,12 @@ public class ElasticSearchAuditLogInfoEventHandler : IDistributedEventHandler<El
     private protected AbpAuditingOptions AbpAuditingOptions { get; init; }
     public ILogger<ElasticSearchAuditLogInfoEventHandler> Logger { get; init; }
     
-    public ElasticSearchAuditLogInfoEventHandler(IOptions<ElasticSearchAuditLogSettings> elasticSearchAuditLogSettings, IOptions<AbpAuditingOptions> abpAuditingOptions,IElasticSearchManager elasticSearchManager)
+    private readonly IAuditLogRepository _auditLogRepository;
+    public ElasticSearchAuditLogInfoEventHandler(IOptions<ElasticSearchAuditLogSettings> elasticSearchAuditLogSettings, IOptions<AbpAuditingOptions> abpAuditingOptions,IElasticSearchManager elasticSearchManager, IAuditLogRepository auditLogRepository)
     {
         _elasticSearchManager = elasticSearchManager;
-        
+        _auditLogRepository = auditLogRepository;
+
         ElasticSearchAuditLogSettings = elasticSearchAuditLogSettings.Value;
         AbpAuditingOptions = abpAuditingOptions.Value;
         Logger = NullLogger<ElasticSearchAuditLogInfoEventHandler>.Instance;
@@ -31,6 +33,24 @@ public class ElasticSearchAuditLogInfoEventHandler : IDistributedEventHandler<El
     
     public async Task HandleEventAsync(ElasticSearchAuditLogInfoEto eventData)
     {
+        if (!ElasticSearchAuditLogSettings.IsActive)
+        {
+            if (!AbpAuditingOptions.HideErrors)
+            {
+                await _auditLogRepository.InsertAsync(eventData);
+                return;
+            }
+            try
+            {
+                await _auditLogRepository.InsertAsync(eventData);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogWarning("Could not save the audit log object: " + Environment.NewLine + eventData.ToString());
+                Logger.LogException(ex, LogLevel.Error);
+            }
+            return;
+        }
         if (!AbpAuditingOptions.HideErrors)
         {
             await _elasticSearchManager.SaveLogAsync(eventData);
