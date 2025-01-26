@@ -1,8 +1,13 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Feramor.Abp.AuditLogging.ElasticSearch.Eto;
 using Feramor.Abp.AuditLogging.ElasticSearch.Managers;
 using Feramor.Abp.AuditLogging.ElasticSearch.Settings;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
+using Volo.Abp.Auditing;
+using Volo.Abp.AuditLogging;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EventBus.Distributed;
 
@@ -12,15 +17,34 @@ public class ElasticSearchAuditLogInfoEventHandler : IDistributedEventHandler<El
 {
     private readonly IElasticSearchManager _elasticSearchManager;
     private protected ElasticSearchAuditLogSettings ElasticSearchAuditLogSettings { get; init; }
-
-    public ElasticSearchAuditLogInfoEventHandler(IOptions<ElasticSearchAuditLogSettings> elasticSearchAuditLogSettings, IElasticSearchManager elasticSearchManager)
+    private protected AbpAuditingOptions AbpAuditingOptions { get; init; }
+    public ILogger<ElasticSearchAuditLogInfoEventHandler> Logger { get; init; }
+    
+    public ElasticSearchAuditLogInfoEventHandler(IOptions<ElasticSearchAuditLogSettings> elasticSearchAuditLogSettings, IOptions<AbpAuditingOptions> abpAuditingOptions,IElasticSearchManager elasticSearchManager)
     {
-        ElasticSearchAuditLogSettings = elasticSearchAuditLogSettings.Value;
         _elasticSearchManager = elasticSearchManager;
+        
+        ElasticSearchAuditLogSettings = elasticSearchAuditLogSettings.Value;
+        AbpAuditingOptions = abpAuditingOptions.Value;
+        Logger = NullLogger<ElasticSearchAuditLogInfoEventHandler>.Instance;
     }
     
-    public Task HandleEventAsync(ElasticSearchAuditLogInfoEto eventData)
+    public async Task HandleEventAsync(ElasticSearchAuditLogInfoEto eventData)
     {
-        throw new System.NotImplementedException();
+        if (!AbpAuditingOptions.HideErrors)
+        {
+            await _elasticSearchManager.SaveLogAsync(eventData);
+            return;
+        }
+        
+        try
+        {
+            await _elasticSearchManager.SaveLogAsync(eventData);
+        }
+        catch (Exception ex)
+        {
+            Logger.LogWarning("Could not save the audit log object: " + Environment.NewLine + eventData.ToString());
+            Logger.LogException(ex, LogLevel.Error);
+        }
     }
 }
