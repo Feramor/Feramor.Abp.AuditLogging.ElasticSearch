@@ -1,0 +1,85 @@
+@if (settings$ | async; as settings) {
+  <div (keyup.enter)="submit()" >
+    <h4>{{ 'ElasticSearch::Title:ElasticSearchSettings' | abpLocalization }}</h4>
+    @if (form) {
+      <form [formGroup]="form" id="elasticSearchSettings" (ngSubmit)="submit()" validateOnSubmit>
+        <div class="form-check mb-2">
+          <input type="checkbox" id="IsActive" name="IsActive" class="form-check-input" formControlName="isActive" autofocus />
+          <label class="form-check-label" for="IsActive">{{'ElasticSearch::DisplayName:IsActive' | abpLocalization }}</label>
+        </div>
+        <div [@collapse]="{ value: form.get('isActive')?.value ? 'expanded' : 'collapsed',params: { time: '200ms', easing: 'linear' }}">
+          <div class="mb-3">
+            <label class="form-label">{{ 'ElasticSearch::DisplayName:Uri' | abpLocalization }}*</label>
+            <input type="text" class="form-control" formControlName="uri" />
+          </div>
+          <div class="form-check mb-2">
+            <input type="checkbox" id="UseSsl" name="UseSsl" class="form-check-input" formControlName="useSsl"/>
+            <label class="form-check-label" for="UseSsl">{{'ElasticSearch::DisplayName:UseSsl' | abpLocalization }}</label>
+          </div>
+          <div [@collapse]="{ value: form.get('useSsl')?.value ? 'expanded' : 'collapsed',params: { time: '200ms', easing: 'linear' }}">
+            <div class="mb-3">
+              <label class="form-label">{{ 'ElasticSearch::DisplayName:SslFingerprint' | abpLocalization }}*</label>
+              <input type="text" class="form-control" formControlName="sslFingerprint" style="text-security:disc; -webkit-text-security:disc;" autocomplete="off">
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">{{ 'ElasticSearch::DisplayName:Index' | abpLocalization }}*</label>
+            <input type="text" class="form-control" formControlName="index" />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">{{ 'ElasticSearch::DisplayName:AuthenticationType' | abpLocalization }}</label>
+            <ng-select appendTo="body" formControlName="authenticationType">
+              @for (elasticSearchAuthenticationType of elasticSearchAuthenticationTypes; track elasticSearchAuthenticationType.value) {
+                <ng-option [value]="elasticSearchAuthenticationType.value">{{('ElasticSearch::DisplayName:AuthenticationType:' + elasticSearchAuthenticationType.key)| abpLocalization}}</ng-option>
+              }
+            </ng-select>
+          </div>
+          <div [@collapse]="{ value: (form.get('authenticationType')?.value !== undefined &&  form.get('authenticationType')?.value !== null) ? 'expanded' : 'collapsed',params: { time: '200ms', easing: 'linear' }}">
+            <div [@collapse]="{ value: (form.get('authenticationType')?.value === ElasticSearchAuthenticationType.BasicAuthentication) ? 'expanded' : 'collapsed',params: { time: '200ms', easing: 'linear' }}">
+              <div class="mb-3">
+                <label class="form-label">{{ 'ElasticSearch::DisplayName:Username' | abpLocalization }}*</label>
+                <input type="text" class="form-control" formControlName="username" />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">{{ 'ElasticSearch::DisplayName:Password' | abpLocalization }}*</label>
+                <p class="ml-3">
+                  <input type="checkbox" id="ChangePassword" name="ChangePassword" class="form-check-input" formControlName="changePassword"/>
+                  <label class="form-check-label" for="ChangePassword">{{'ElasticSearch::DisplayName:ChangePassword' | abpLocalization }}</label>
+                </p>
+                <input [disabled]="!form.get('changePassword').value" [readOnly]="!form.get('changePassword').value" type="text" class="form-control" formControlName="password" style="text-security:disc; -webkit-text-security:disc;" autocomplete="off">
+              </div>
+            </div>
+            <div [@collapse]="{ value: (form.get('authenticationType')?.value === ElasticSearchAuthenticationType.ApiKeyAuthentication || form.get('authenticationType')?.value === ElasticSearchAuthenticationType.Base64ApiKey) ? 'expanded' : 'collapsed',params: { time: '200ms', easing: 'linear' }}">
+              <div [@collapse]="{ value: (form.get('authenticationType')?.value === ElasticSearchAuthenticationType.Base64ApiKey) ? 'expanded' : 'collapsed',params: { time: '200ms', easing: 'linear' }}">
+                <div class="mb-3">
+                  <label class="form-label">{{ 'ElasticSearch::DisplayName:ApiKeyId' | abpLocalization }}*</label>
+                  <p class="ml-3">
+                    <input type="checkbox" id="ChangeApiKeyId" name="ChangeApiKeyId" class="form-check-input" formControlName="changeApiKeyId"/>
+                    <label class="form-check-label" for="ChangeApiKeyId">{{'ElasticSearch::DisplayName:ChangeApiKeyId' | abpLocalization }}</label>
+                  </p>
+                  <input [disabled]="!form.get('changeApiKeyId').value" [readOnly]="!form.get('changeApiKeyId').value" type="text" class="form-control" formControlName="apiKeyId" style="text-security:disc; -webkit-text-security:disc;" autocomplete="off">
+                </div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">{{ 'ElasticSearch::DisplayName:ApiKey' | abpLocalization }}*</label>
+                <p class="ml-3">
+                  <input type="checkbox" id="ChangeApiKey" name="ChangeApiKey" class="form-check-input" formControlName="changeApiKey"/>
+                  <label class="form-check-label" for="ChangeApiKey">{{'ElasticSearch::DisplayName:ChangeApiKey' | abpLocalization }}</label>
+                </p>
+                <input [disabled]="!form.get('changeApiKey').value" [readOnly]="!form.get('changeApiKey').value" type="text" class="form-control" formControlName="apiKey" style="text-security:disc; -webkit-text-security:disc;" autocomplete="off">
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr />
+        <abp-button buttonType="submit" iconClass="fa fa-save">{{ 'AbpSettingManagement::Save' | abpLocalization }}</abp-button>
+        <button type="button" (click)="testConnection()" class="btn btn-primary mx-2">
+          <i class="fa fa-wifi" aria-hidden="true"></i>
+          {{ 'ElasticSearch::Button:TestConnection' | abpLocalization }}
+        </button>
+      </form>
+      }
+
+
+  </div>
+}

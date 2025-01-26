@@ -1,8 +1,30 @@
 {
   "culture": "en",
   "texts": {
-    "ErrorCodes:Error:000001": "URI must start with http(s)://",
-    "ErrorCodes:Error:000002": "URI must start with https://",
-    "ErrorCodes:Error:000003": "Connection test to the Elastic Search server failed."
+    "ErrorCodes:Error:000001": "The URI must start with http(s)://.",
+    "ErrorCodes:Error:000002": "The URI must start with https://.",
+    "ErrorCodes:Error:000003": "An error occurred while connecting to the Elasticsearch server.",
+    "ErrorCodes:Error:000004": "An error occurred while creating the index in Elasticsearch.",
+    "ErrorCodes:Error:000005": "An error occurred while converting the log.",
+    "ErrorCodes:Error:000006": "An error occurred while sending the log to Elasticsearch.",
+    "Title:ElasticSearchSettings": "Elasticsearch Settings",
+    "Menu:ElasticSearch": "Elasticsearch Settings",
+    "Button:TestConnection": "Test Connection",
+    "DisplayName:IsActive": "Enable Elasticsearch audit logging",
+    "DisplayName:Uri": "Hostname",
+    "DisplayName:UseSsl": "Use SSL while connecting to Elasticsearch server",
+    "DisplayName:SslFingerprint": "SSL Certificate Fingerprint",
+    "DisplayName:Index": "Elasticsearch Index",
+    "DisplayName:AuthenticationType": "Authentication Type",
+    "DisplayName:Username": "Username",
+    "DisplayName:Password": "Password",
+    "DisplayName:ApiKeyId": "Api Key Id",
+    "DisplayName:ApiKey": "Api Key",
+    "DisplayName:ChangePassword": "Change Password",
+    "DisplayName:ChangeApiKeyId": "Change Api Key Id",
+    "DisplayName:ChangeApiKey": "Change Api Key",
+    "DisplayName:AuthenticationType:BasicAuthentication": "Basic Authentication",
+    "DisplayName:AuthenticationType:ApiKeyAuthentication": "Api Key",
+    "DisplayName:AuthenticationType:Base64ApiKey": "Encrypted Api Key"
   }
 }

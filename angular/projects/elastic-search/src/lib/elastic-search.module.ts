@@ -1,13 +1,13 @@
 import { NgModule, NgModuleFactory, ModuleWithProviders } from '@angular/core';
 import { CoreModule, LazyModuleFactory } from '@abp/ng.core';
 import { ThemeSharedModule } from '@abp/ng.theme.shared';
-import { ElasticSearchComponent } from './components/elastic-search.component';
 import { ElasticSearchRoutingModule } from './elastic-search-routing.module';
+import { ElasticSearchSettingsModule } from './elastic-search-settings.module';
 
 @NgModule({
-  declarations: [ElasticSearchComponent],
-  imports: [CoreModule, ThemeSharedModule, ElasticSearchRoutingModule],
-  exports: [ElasticSearchComponent],
+  declarations: [],
+  imports: [CoreModule, ThemeSharedModule, ElasticSearchRoutingModule, ElasticSearchSettingsModule],
+  exports: [ElasticSearchSettingsModule],
 })
 export class ElasticSearchModule {
   static forChild(): ModuleWithProviders<ElasticSearchModule> {

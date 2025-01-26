@@ -6,24 +6,24 @@ export const environment = {
   production: false,
   application: {
     baseUrl: 'http://localhost:4200/',
-    name: 'ElasticSearch',
+    name: 'GeneralTest',
     logoUrl: '',
   },
   oAuthConfig: {
-    issuer: 'https://localhost:44350/',
+    issuer: 'https://localhost:44363/',
     redirectUri: baseUrl,
-    clientId: 'ElasticSearch_App',
+    clientId: 'GeneralTest_App',
     responseType: 'code',
-    scope: 'offline_access ElasticSearch',
+    scope: 'offline_access GeneralTest',
     requireHttps: true
   },
   apis: {
     default: {
-      url: 'https://localhost:44350',
+      url: 'https://localhost:44363',
       rootNamespace: 'Feramor.Abp.AuditLogging.ElasticSearch',
     },
     ElasticSearch: {
-      url: 'https://localhost:44345',
+      url: 'https://localhost:44363',
       rootNamespace: 'Feramor.Abp.AuditLogging.ElasticSearch',
     },
   },

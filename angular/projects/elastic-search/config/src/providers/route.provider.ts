@@ -2,7 +2,7 @@ import { eLayoutType, RoutesService } from '@abp/ng.core';
 import { APP_INITIALIZER } from '@angular/core';
 import { eElasticSearchRouteNames } from '../enums/route-names';
 
-export const ELASTİC_SEARCH_ROUTE_PROVIDERS = [
+export const ELASTIC_SEARCH_ROUTE_PROVIDERS = [
   {
     provide: APP_INITIALIZER,
     useFactory: configureRoutes,

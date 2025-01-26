@@ -11,6 +11,7 @@ using Microsoft.Extensions.Options;
 using Volo.Abp;
 using Volo.Abp.SettingManagement;
 using Volo.Abp.Settings;
+using Volo.Abp.Validation;
 
 namespace Feramor.Abp.AuditLogging.ElasticSearch.Settings;
 
@@ -92,27 +93,79 @@ public class ElasticSearchAuditLogSettingsAppService : ElasticSearchAppService, 
                 throw new ArgumentOutOfRangeException();
         }
         
+        
         await _settingManager.SetGlobalAsync(ElasticSearchSettings.IsActive, input.IsActive.ToString());
         await _settingManager.SetGlobalAsync(ElasticSearchSettings.Uri, input.Uri);
         await _settingManager.SetGlobalAsync(ElasticSearchSettings.UseSsl, input.UseSsl.ToString());
         await _settingManager.SetGlobalAsync(ElasticSearchSettings.SslFingerprint, input.SslFingerprint);
         await _settingManager.SetGlobalAsync(ElasticSearchSettings.AuthenticationType, ((int?)input.AuthenticationType)?.ToString());
-        await _settingManager.SetGlobalAsync(ElasticSearchSettings.Username, input.Username);
-        await _settingManager.SetGlobalAsync(ElasticSearchSettings.Password, input.Password);
-        await _settingManager.SetGlobalAsync(ElasticSearchSettings.ApiKey, input.ApiKey);
-        await _settingManager.SetGlobalAsync(ElasticSearchSettings.ApiKeyId, input.ApiKeyId);
         await _settingManager.SetGlobalAsync(ElasticSearchSettings.Index, input.Index);
-        
+
         ElasticSearchAuditLogSettings.IsActive = input.IsActive;
         ElasticSearchAuditLogSettings.Uri = input.Uri;
         ElasticSearchAuditLogSettings.UseSsl = input.UseSsl;
         ElasticSearchAuditLogSettings.SslFingerprint = input.SslFingerprint;
         ElasticSearchAuditLogSettings.AuthenticationType = input.AuthenticationType;
-        ElasticSearchAuditLogSettings.Username = input.Username;
-        ElasticSearchAuditLogSettings.Password = input.Password;
-        ElasticSearchAuditLogSettings.ApiKey = input.ApiKey;
-        ElasticSearchAuditLogSettings.ApiKeyId = input.ApiKeyId;
         ElasticSearchAuditLogSettings.Index = input.Index;
+        
+        switch (input.AuthenticationType)
+        {
+            case ElasticSearchAuthenticationType.BasicAuthentication:
+                await _settingManager.SetGlobalAsync(ElasticSearchSettings.Username, input.Username);
+                ElasticSearchAuditLogSettings.Username = input.Username;
+
+                if (!input.Password.IsNullOrWhiteSpace())
+                {
+                    await _settingManager.SetGlobalAsync(ElasticSearchSettings.Password, input.Password);
+                    ElasticSearchAuditLogSettings.Password = input.Password;
+                }
+                
+                await _settingManager.SetGlobalAsync(ElasticSearchSettings.ApiKey, null);
+                await _settingManager.SetGlobalAsync(ElasticSearchSettings.ApiKeyId, null);
+                ElasticSearchAuditLogSettings.ApiKey = null;
+                ElasticSearchAuditLogSettings.ApiKeyId = null;
+                
+                break;
+            case ElasticSearchAuthenticationType.ApiKeyAuthentication:
+                if (!input.ApiKey.IsNullOrWhiteSpace())
+                {
+                    await _settingManager.SetGlobalAsync(ElasticSearchSettings.ApiKey, input.ApiKey);
+                    ElasticSearchAuditLogSettings.ApiKey = input.ApiKey;
+                }
+                
+                await _settingManager.SetGlobalAsync(ElasticSearchSettings.Username, null);
+                await _settingManager.SetGlobalAsync(ElasticSearchSettings.Password, null);
+                await _settingManager.SetGlobalAsync(ElasticSearchSettings.ApiKeyId, null);
+
+                ElasticSearchAuditLogSettings.Username = null;
+                ElasticSearchAuditLogSettings.Password = null;
+                ElasticSearchAuditLogSettings.ApiKeyId = null;
+
+                break;
+            case ElasticSearchAuthenticationType.Base64ApiKey:
+                if (!input.ApiKey.IsNullOrWhiteSpace())
+                {
+                    await _settingManager.SetGlobalAsync(ElasticSearchSettings.ApiKeyId, input.ApiKeyId);
+                    ElasticSearchAuditLogSettings.ApiKey = input.ApiKeyId;
+                }
+                
+                if (!input.ApiKey.IsNullOrWhiteSpace())
+                {
+                    await _settingManager.SetGlobalAsync(ElasticSearchSettings.ApiKey, input.ApiKey);
+                    ElasticSearchAuditLogSettings.ApiKey = input.ApiKey;
+                }
+                
+                await _settingManager.SetGlobalAsync(ElasticSearchSettings.Username, null);
+                await _settingManager.SetGlobalAsync(ElasticSearchSettings.Password, null);
+                
+                ElasticSearchAuditLogSettings.Username = null;
+                ElasticSearchAuditLogSettings.Password = null;
+                break;
+            case null:
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
     }
 
     public Task<bool> TestConnectionAsync()

@@ -104,6 +104,11 @@
                 "inject": true,
                 "bundleName": "bootstrap-ltr.min"
               },
+              {
+                "input": "node_modules/@ng-select/ng-select/themes/default.theme.css",
+                "inject": true,
+                "bundleName": "ng-select-default"
+              },
               "projects/dev-app/src/styles.scss"
             ],
             "scripts": []
