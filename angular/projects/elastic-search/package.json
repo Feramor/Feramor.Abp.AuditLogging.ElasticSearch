@@ -1,5 +1,5 @@
 {
-  "name": "@feramor/feramor-abp-audit-logging-elastic-search",
+  "name": "@feramor/ng.abp-audit-logging-elastic-search",
   "version": "9.0.4-0",
   "peerDependencies": {
     "@angular/common": "~18.1.0",
