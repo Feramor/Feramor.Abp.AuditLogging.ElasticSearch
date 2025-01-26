@@ -1,0 +1,42 @@
+<Project>
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+	<Authors>Munir Ozan Topcu</Authors>
+    <Version>9.0.4.0</Version>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+    <AbpProjectType>module</AbpProjectType>
+    <PackageProjectUrl>https://github.com/Feramor/</PackageProjectUrl>
+    <PackageLicenseExpression>GPL-3.0</PackageLicenseExpression>
+	<RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/Feramor/Feramor.Abp.AuditLogging.ElasticSearch/</RepositoryUrl>
+    <PackageReadmeFile>NuGet.md</PackageReadmeFile>
+	<PackageTags>aspnetcore boilerplate framework web best-practices angular maui blazor mvc csharp webapp elastic elasticsearch</PackageTags>
+	<GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!-- Include symbol files (*.pdb) in the built .nupkg -->
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+  </PropertyGroup>
+    <ItemGroup>
+    <None Include="..\..\NuGet.md" Pack="true" PackagePath="\"/>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="ConfigureAwait.Fody" Version="3.3.1" PrivateAssets="All" />
+    <PackageReference Include="Fody" Version="6.5.3">
+      <PrivateAssets>All</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+
+  <Target Name="NoWarnOnRazorViewImportedTypeConflicts" BeforeTargets="RazorCoreCompile">
+    <PropertyGroup>
+      <NoWarn>$(NoWarn);0436</NoWarn>
+    </PropertyGroup>
+  </Target>
+
+</Project>

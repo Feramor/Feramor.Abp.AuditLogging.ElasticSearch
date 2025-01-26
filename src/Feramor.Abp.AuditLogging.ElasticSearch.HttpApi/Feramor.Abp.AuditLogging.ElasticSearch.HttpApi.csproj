@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Feramor.Abp.AuditLogging.ElasticSearch</RootNamespace>
+    <AssemblyName>Feramor.Abp.AuditLogging.ElasticSearch.HttpApi</AssemblyName>
+    <PackageId>Feramor.Abp.AuditLogging.ElasticSearch.HttpApi</PackageId>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.AspNetCore.Mvc" Version="9.0.4" />
+    <ProjectReference Include="..\Feramor.Abp.AuditLogging.ElasticSearch.Application.Contracts\Feramor.Abp.AuditLogging.ElasticSearch.Application.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

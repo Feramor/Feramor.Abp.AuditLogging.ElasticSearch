@@ -1,0 +1,16 @@
+{
+  "name": "@feramor/feramor-abp-audit-logging-elastic-search",
+  "version": "9.0.4-0",
+  "peerDependencies": {
+    "@angular/common": "~18.1.0",
+    "@angular/core": "~18.1.0",
+    "@ng-select/ng-select": "~13.9.1",
+    "@abp/ng.core": "~9.0.4",
+    "@abp/ng.theme.shared": "~9.0.4",
+    "@abp/ng.components": "~9.0.4",
+    "@abp/ng.setting-management": "~9.0.4"
+  },
+  "dependencies": {
+    "tslib": "^2.1.0"
+  }
+}

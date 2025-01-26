@@ -1,0 +1,30 @@
+{
+  "culture": "tr",
+  "texts": {
+    "ErrorCodes:Error:000001": "URI, http(s):// ile başlamalıdır.",
+    "ErrorCodes:Error:000002": "URI, https:// ile başlamalıdır.",
+    "ErrorCodes:Error:000003": "Elasticsearch sunucusuna bağlanırken bir hata oluştu.",
+    "ErrorCodes:Error:000004": "Elasticsearch'te indeks oluşturulurken bir hata oluştu.",
+    "ErrorCodes:Error:000005": "Günlük dönüştürülürken bir hata oluştu.",
+    "ErrorCodes:Error:000006": "Günlük Elasticsearch'e gönderilirken bir hata oluştu.",
+    "Title:ElasticSearchSettings": "Elasticsearch Ayarları",
+    "Menu:ElasticSearch": "Elasticsearch Ayarları",
+    "Button:TestConnection": "Bağlantıyı Test Et",
+    "DisplayName:IsActive": "Elasticsearch denetim günlüğünü etkinleştir",
+    "DisplayName:Uri": "Ana Bilgisayar Adı",
+    "DisplayName:UseSsl": "Elasticsearch sunucusuna bağlanırken SSL kullan",
+    "DisplayName:SslFingerprint": "SSL Sertifikası Parmak İzi",
+    "DisplayName:Index": "Elasticsearch İndeksi",
+    "DisplayName:AuthenticationType": "Kimlik Doğrulama Türü",
+    "DisplayName:Username": "Kullanıcı Adı",
+    "DisplayName:Password": "Şifre",
+    "DisplayName:ApiKeyId": "API Anahtar Kimliği",
+    "DisplayName:ApiKey": "API Anahtarı",
+    "DisplayName:ChangePassword": "Şifreyi Değiştir",
+    "DisplayName:ChangeApiKeyId": "API Anahtar Kimliğini Değiştir",
+    "DisplayName:ChangeApiKey": "API Anahtarını Değiştir",
+    "DisplayName:AuthenticationType:BasicAuthentication": "Temel Kimlik Doğrulama",
+    "DisplayName:AuthenticationType:ApiKeyAuthentication": "API Anahtarı",
+    "DisplayName:AuthenticationType:Base64ApiKey": "Şifrelenmiş API Anahtarı"
+  }
+}
