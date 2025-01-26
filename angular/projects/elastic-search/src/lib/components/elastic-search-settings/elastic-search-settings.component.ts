@@ -4,11 +4,11 @@ import {
   ElasticSearchAuditLogSettingsDto,
   ElasticSearchSettingsService,
   UpdateElasticSearchAuditLogSettingsDto
-} from '../../services/settings';
+} from '../../proxy/settings';
 import { collapse, ToasterService } from '@abp/ng.theme.shared';
 import { finalize, map, Observable } from 'rxjs';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { ElasticSearchAuthenticationType, elasticSearchAuthenticationTypeOptions } from '../../services/enums';
+import { ElasticSearchAuthenticationType, elasticSearchAuthenticationTypeOptions } from '../../proxy/enums';
 
 @Component({
   selector: 'lib-elastic-search-settings',

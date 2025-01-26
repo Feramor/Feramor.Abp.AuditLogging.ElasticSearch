@@ -1,12 +1,9 @@
 import { SettingTabsService } from '@abp/ng.setting-management/config';
 import { APP_INITIALIZER, inject } from '@angular/core';
-import { eAccountSettingTabNames } from '../enums/setting-tab-names';
 import { ConfigStateService } from '@abp/ng.core';
 import { ABP } from '@abp/ng.core';
-import { filter, firstValueFrom } from 'rxjs';
-import {
-  ElasticSearchSettingsComponent
-} from '../../../src/lib/components/elastic-search-settings/elastic-search-settings.component';
+import { eElasticSearchSettingTabNames } from '../enums';
+import { ElasticSearchSettingsComponent } from '@feramor/ng.abp-audit-logging-elastic-search';
 
 export const ELASTIC_SEARCH_SETTING_TAB_PROVIDERS = [
   {
@@ -21,7 +18,7 @@ export function configureSettingTabs(settingtabs: SettingTabsService) {
   const configState = inject(ConfigStateService);
   const tabsArray: ABP.Tab[] = [
     {
-      name: eAccountSettingTabNames.ElasticSearch,
+      name: eElasticSearchSettingTabNames.ElasticSearch,
       order: 100,
       requiredPolicy: 'ElasticSearch.SettingManagement',
       component: ElasticSearchSettingsComponent,

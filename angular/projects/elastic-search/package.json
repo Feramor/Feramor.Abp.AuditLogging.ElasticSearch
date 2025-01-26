@@ -1,6 +1,11 @@
 {
   "name": "@feramor/ng.abp-audit-logging-elastic-search",
-  "version": "9.0.4-0",
+  "version": "9.0.4-1",
+  "homepage": "https://github.com/feramor",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Feramor/Feramor.Abp.AuditLogging.ElasticSearch.git"
+  },
   "peerDependencies": {
     "@angular/common": "~18.1.0",
     "@angular/core": "~18.1.0",
@@ -12,5 +17,22 @@
   },
   "dependencies": {
     "tslib": "^2.1.0"
-  }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "LGPL-3.0",
+  "keywords": [
+    "aspnetcore",
+    "boilerplate",
+    "framework",
+    "web",
+    "best-practices",
+    "angular",
+    "maui",
+    "blazor",
+    "mvc",
+    "csharp",
+    "webapp"
+  ]
 }
