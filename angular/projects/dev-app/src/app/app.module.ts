@@ -11,7 +11,7 @@ import { provideAbpOAuth } from '@abp/ng.oauth';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ElasticSearchConfigModule } from '@feramor.Abp.Audit-logging/elastic-search/config';
+import { ElasticSearchConfigModule } from '@feramor/ng.abp-audit-logging-elastic-search/config';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
