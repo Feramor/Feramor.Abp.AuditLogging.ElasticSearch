@@ -2,11 +2,11 @@
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
 	<Authors>Munir Ozan Topcu</Authors>
-    <Version>9.0.4.0</Version>
+    <Version>9.0.4.1</Version>
     <NoWarn>$(NoWarn);CS1591</NoWarn>
     <AbpProjectType>module</AbpProjectType>
     <PackageProjectUrl>https://github.com/Feramor/</PackageProjectUrl>
-    <PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
+    <PackageLicenseExpression>LGPL-3.0-only</PackageLicenseExpression>
 	<RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/Feramor/Feramor.Abp.AuditLogging.ElasticSearch/</RepositoryUrl>
     <PackageReadmeFile>NuGet.md</PackageReadmeFile>
