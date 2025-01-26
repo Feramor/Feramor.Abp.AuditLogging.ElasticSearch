@@ -1,3 +1,4 @@
+[![Build Status](https://dev.azure.com/feramor/Pipelines/_apis/build/status%2FFeramor.Feramor.Abp.AuditLogging.ElasticSearch?branchName=main)](https://dev.azure.com/feramor/Pipelines/_build/latest?definitionId=3&branchName=main)
 
 ## ℹ️ Description
 
