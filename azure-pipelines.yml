@@ -1,0 +1,371 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+  branches:
+    include:
+    - main
+  paths:
+    include:
+      - src/*
+      
+pool:
+  name: 'Default'
+
+variables:
+  buildConfiguration: 'Release'
+
+stages:
+- stage: S00000000
+  displayName: 'Clearing NuGet Cache'
+  jobs:
+  - job: J00000001
+    displayName: "Clearing NuGet Cache"
+    steps:
+      - task: NuGetCommand@2
+        displayName: 'Clearing NuGet Cache'
+        continueOnError: false
+        inputs:
+          command: 'custom'
+          arguments: 'locals all -clear'
+- stage: S00000001
+  dependsOn: S00000000
+  displayName: 'Building Feramor.Abp.AuditLogging.ElasticSearch'
+  jobs:
+  - job: J00000001
+    displayName: "Building Feramor.Abp.AuditLogging.ElasticSearch.Domain.Shared"
+    steps:
+      - task: DotNetCoreCLI@2
+        displayName: 'Building nuget packages'
+        continueOnError: false
+        inputs:
+          command: 'build'
+          arguments: '--configuration $(buildConfiguration)'
+          projects: 'src/Feramor.Abp.AuditLogging.ElasticSearch.Domain.Shared/Feramor.Abp.AuditLogging.ElasticSearch.Domain.Shared.csproj'
+      - task: DotNetCoreCLI@2
+        displayName: "Packing nuget packages"
+        continueOnError: false
+        inputs:
+          command: 'pack'
+          arguments: '--configuration $(buildConfiguration)'
+          packagesToPack: 'src/Feramor.Abp.AuditLogging.ElasticSearch.Domain.Shared/Feramor.Abp.AuditLogging.ElasticSearch.Domain.Shared.csproj'
+          nobuild: true
+          versioningScheme: 'off'
+      - task: DotNetCoreCLI@2
+        displayName: "Publish nuget packages to nuget feed"
+        continueOnError: false
+        inputs:
+          command: custom
+          custom: nuget
+          arguments: >
+            push "$(Build.ArtifactStagingDirectory)/**/*.nupkg"
+            -s https://api.nuget.org/v3/index.json
+            -k $(NuGetApiKey)
+            --skip-duplicate
+      - task: DotNetCoreCLI@2
+        displayName: "Publish nuget packages to github feed"
+        continueOnError: false
+        inputs:
+          command: custom
+          custom: nuget
+          arguments: >
+            push "$(Build.ArtifactStagingDirectory)/**/*.nupkg"
+            -s https://nuget.pkg.github.com/feramor/index.json
+            -k $(GitHubApiKey)
+            --skip-duplicate
+  - job: J00000002
+    dependsOn: J00000001
+    displayName: "Building Feramor.Abp.AuditLogging.ElasticSearch.Domain"
+    steps:
+      - task: DotNetCoreCLI@2
+        displayName: 'Building nuget packages'
+        continueOnError: false
+        inputs:
+          command: 'build'
+          arguments: '--configuration $(buildConfiguration)'
+          projects: 'src/Feramor.Abp.AuditLogging.ElasticSearch.Domain/Feramor.Abp.AuditLogging.ElasticSearch.Domain.csproj'
+      - task: DotNetCoreCLI@2
+        displayName: "Packing nuget packages"
+        continueOnError: false
+        inputs:
+          command: 'pack'
+          arguments: '--configuration $(buildConfiguration)'
+          packagesToPack: 'src/Feramor.Abp.AuditLogging.ElasticSearch.Domain/Feramor.Abp.AuditLogging.ElasticSearch.Domain.csproj'
+          nobuild: true
+          versioningScheme: 'off'
+      - task: DotNetCoreCLI@2
+        displayName: "Publish nuget packages to nuget feed"
+        continueOnError: false
+        inputs:
+          command: custom
+          custom: nuget
+          arguments: >
+            push "$(Build.ArtifactStagingDirectory)/**/*.nupkg"
+            -s https://api.nuget.org/v3/index.json
+            -k $(NuGetApiKey)
+            --skip-duplicate
+      - task: DotNetCoreCLI@2
+        displayName: "Publish nuget packages to github feed"
+        continueOnError: false
+        inputs:
+          command: custom
+          custom: nuget
+          arguments: >
+            push "$(Build.ArtifactStagingDirectory)/**/*.nupkg"
+            -s https://nuget.pkg.github.com/feramor/index.json
+            -k $(GitHubApiKey)
+            --skip-duplicate
+  - job: J00000003
+    dependsOn: J00000002
+    displayName: "Building Feramor.Abp.AuditLogging.ElasticSearch.Application.Contracts"
+    steps:
+      - task: DotNetCoreCLI@2
+        displayName: 'Building nuget packages'
+        continueOnError: false
+        inputs:
+          command: 'build'
+          arguments: '--configuration $(buildConfiguration)'
+          projects: 'src/Feramor.Abp.AuditLogging.ElasticSearch.Application.Contracts/Feramor.Abp.AuditLogging.ElasticSearch.Application.Contracts.csproj'
+      - task: DotNetCoreCLI@2
+        displayName: "Packing nuget packages"
+        continueOnError: false
+        inputs:
+          command: 'pack'
+          arguments: '--configuration $(buildConfiguration)'
+          packagesToPack: 'src/Feramor.Abp.AuditLogging.ElasticSearch.Application.Contracts/Feramor.Abp.AuditLogging.ElasticSearch.Application.Contracts.csproj'
+          nobuild: true
+          versioningScheme: 'off'
+      - task: DotNetCoreCLI@2
+        displayName: "Publish nuget packages to nuget feed"
+        continueOnError: false
+        inputs:
+          command: custom
+          custom: nuget
+          arguments: >
+            push "$(Build.ArtifactStagingDirectory)/**/*.nupkg"
+            -s https://api.nuget.org/v3/index.json
+            -k $(NuGetApiKey)
+            --skip-duplicate
+      - task: DotNetCoreCLI@2
+        displayName: "Publish nuget packages to github feed"
+        continueOnError: false
+        inputs:
+          command: custom
+          custom: nuget
+          arguments: >
+            push "$(Build.ArtifactStagingDirectory)/**/*.nupkg"
+            -s https://nuget.pkg.github.com/feramor/index.json
+            -k $(GitHubApiKey)
+            --skip-duplicate
+  - job: J00000004
+    dependsOn: J00000003
+    displayName: "Building Feramor.Abp.AuditLogging.ElasticSearch.Application"
+    steps:
+      - task: DotNetCoreCLI@2
+        displayName: 'Building nuget packages'
+        continueOnError: false
+        inputs:
+          command: 'build'
+          arguments: '--configuration $(buildConfiguration)'
+          projects: 'src/Feramor.Abp.AuditLogging.ElasticSearch.Application/Feramor.Abp.AuditLogging.ElasticSearch.Application.csproj'
+      - task: DotNetCoreCLI@2
+        displayName: "Packing nuget packages"
+        continueOnError: false
+        inputs:
+          command: 'pack'
+          arguments: '--configuration $(buildConfiguration)'
+          packagesToPack: 'src/Feramor.Abp.AuditLogging.ElasticSearch.Application/Feramor.Abp.AuditLogging.ElasticSearch.Application.csproj'
+          nobuild: true
+          versioningScheme: 'off'
+      - task: DotNetCoreCLI@2
+        displayName: "Publish nuget packages to nuget feed"
+        continueOnError: false
+        inputs:
+          command: custom
+          custom: nuget
+          arguments: >
+            push "$(Build.ArtifactStagingDirectory)/**/*.nupkg"
+            -s https://api.nuget.org/v3/index.json
+            -k $(NuGetApiKey)
+            --skip-duplicate
+      - task: DotNetCoreCLI@2
+        displayName: "Publish nuget packages to github feed"
+        continueOnError: false
+        inputs:
+          command: custom
+          custom: nuget
+          arguments: >
+            push "$(Build.ArtifactStagingDirectory)/**/*.nupkg"
+            -s https://nuget.pkg.github.com/feramor/index.json
+            -k $(GitHubApiKey)
+            --skip-duplicate
+  - job: J00000005
+    dependsOn: J00000004
+    displayName: "Building Feramor.Abp.AuditLogging.ElasticSearch.Handler"
+    steps:
+      - task: DotNetCoreCLI@2
+        displayName: 'Building nuget packages'
+        continueOnError: false
+        inputs:
+          command: 'build'
+          arguments: '--configuration $(buildConfiguration)'
+          projects: 'src/Feramor.Abp.AuditLogging.ElasticSearch.Handler/Feramor.Abp.AuditLogging.ElasticSearch.Handler.csproj'
+      - task: DotNetCoreCLI@2
+        displayName: "Packing nuget packages"
+        continueOnError: false
+        inputs:
+          command: 'pack'
+          arguments: '--configuration $(buildConfiguration)'
+          packagesToPack: 'src/Feramor.Abp.AuditLogging.ElasticSearch.Handler/Feramor.Abp.AuditLogging.ElasticSearch.Handler.csproj'
+          nobuild: true
+          versioningScheme: 'off'
+      - task: DotNetCoreCLI@2
+        displayName: "Publish nuget packages to nuget feed"
+        continueOnError: false
+        inputs:
+          command: custom
+          custom: nuget
+          arguments: >
+            push "$(Build.ArtifactStagingDirectory)/**/*.nupkg"
+            -s https://api.nuget.org/v3/index.json
+            -k $(NuGetApiKey)
+            --skip-duplicate
+      - task: DotNetCoreCLI@2
+        displayName: "Publish nuget packages to github feed"
+        continueOnError: false
+        inputs:
+          command: custom
+          custom: nuget
+          arguments: >
+            push "$(Build.ArtifactStagingDirectory)/**/*.nupkg"
+            -s https://nuget.pkg.github.com/feramor/index.json
+            -k $(GitHubApiKey)
+            --skip-duplicate
+  - job: J00000006
+    dependsOn: J00000005
+    displayName: "Building Feramor.Abp.AuditLogging.ElasticSearch.Logger"
+    steps:
+      - task: DotNetCoreCLI@2
+        displayName: 'Building nuget packages'
+        continueOnError: false
+        inputs:
+          command: 'build'
+          arguments: '--configuration $(buildConfiguration)'
+          projects: 'src/Feramor.Abp.AuditLogging.ElasticSearch.Logger/Feramor.Abp.AuditLogging.ElasticSearch.Logger.csproj'
+      - task: DotNetCoreCLI@2
+        displayName: "Packing nuget packages"
+        continueOnError: false
+        inputs:
+          command: 'pack'
+          arguments: '--configuration $(buildConfiguration)'
+          packagesToPack: 'src/Feramor.Abp.AuditLogging.ElasticSearch.Logger/Feramor.Abp.AuditLogging.ElasticSearch.Logger.csproj'
+          nobuild: true
+          versioningScheme: 'off'
+      - task: DotNetCoreCLI@2
+        displayName: "Publish nuget packages to nuget feed"
+        continueOnError: false
+        inputs:
+          command: custom
+          custom: nuget
+          arguments: >
+            push "$(Build.ArtifactStagingDirectory)/**/*.nupkg"
+            -s https://api.nuget.org/v3/index.json
+            -k $(NuGetApiKey)
+            --skip-duplicate
+      - task: DotNetCoreCLI@2
+        displayName: "Publish nuget packages to github feed"
+        continueOnError: false
+        inputs:
+          command: custom
+          custom: nuget
+          arguments: >
+            push "$(Build.ArtifactStagingDirectory)/**/*.nupkg"
+            -s https://nuget.pkg.github.com/feramor/index.json
+            -k $(GitHubApiKey)
+            --skip-duplicate
+  - job: J00000007
+    dependsOn: J00000006
+    displayName: "Building Feramor.Abp.AuditLogging.ElasticSearch.HttpApi"
+    steps:
+      - task: DotNetCoreCLI@2
+        displayName: 'Building nuget packages'
+        continueOnError: false
+        inputs:
+          command: 'build'
+          arguments: '--configuration $(buildConfiguration)'
+          projects: 'src/Feramor.Abp.AuditLogging.ElasticSearch.HttpApi/Feramor.Abp.AuditLogging.ElasticSearch.HttpApi.csproj'
+      - task: DotNetCoreCLI@2
+        displayName: "Packing nuget packages"
+        continueOnError: false
+        inputs:
+          command: 'pack'
+          arguments: '--configuration $(buildConfiguration)'
+          packagesToPack: 'src/Feramor.Abp.AuditLogging.ElasticSearch.HttpApi/Feramor.Abp.AuditLogging.ElasticSearch.HttpApi.csproj'
+          nobuild: true
+          versioningScheme: 'off'
+      - task: DotNetCoreCLI@2
+        displayName: "Publish nuget packages to nuget feed"
+        continueOnError: false
+        inputs:
+          command: custom
+          custom: nuget
+          arguments: >
+            push "$(Build.ArtifactStagingDirectory)/**/*.nupkg"
+            -s https://api.nuget.org/v3/index.json
+            -k $(NuGetApiKey)
+            --skip-duplicate
+      - task: DotNetCoreCLI@2
+        displayName: "Publish nuget packages to github feed"
+        continueOnError: false
+        inputs:
+          command: custom
+          custom: nuget
+          arguments: >
+            push "$(Build.ArtifactStagingDirectory)/**/*.nupkg"
+            -s https://nuget.pkg.github.com/feramor/index.json
+            -k $(GitHubApiKey)
+            --skip-duplicate
+  - job: J00000008
+    dependsOn: J00000007
+    displayName: "Building Feramor.Abp.AuditLogging.ElasticSearch.HttpApi.Client"
+    steps:
+      - task: DotNetCoreCLI@2
+        displayName: 'Building nuget packages'
+        continueOnError: false
+        inputs:
+          command: 'build'
+          arguments: '--configuration $(buildConfiguration)'
+          projects: 'src/Feramor.Abp.AuditLogging.ElasticSearch.HttpApi.Client/Feramor.Abp.AuditLogging.ElasticSearch.HttpApi.Client.csproj'
+      - task: DotNetCoreCLI@2
+        displayName: "Packing nuget packages"
+        continueOnError: false
+        inputs:
+          command: 'pack'
+          arguments: '--configuration $(buildConfiguration)'
+          packagesToPack: 'src/Feramor.Abp.AuditLogging.ElasticSearch.HttpApi.Client/Feramor.Abp.AuditLogging.ElasticSearch.HttpApi.Client.csproj'
+          nobuild: true
+          versioningScheme: 'off'
+      - task: DotNetCoreCLI@2
+        displayName: "Publish nuget packages to nuget feed"
+        continueOnError: false
+        inputs:
+          command: custom
+          custom: nuget
+          arguments: >
+            push "$(Build.ArtifactStagingDirectory)/**/*.nupkg"
+            -s https://api.nuget.org/v3/index.json
+            -k $(NuGetApiKey)
+            --skip-duplicate
+      - task: DotNetCoreCLI@2
+        displayName: "Publish nuget packages to github feed"
+        continueOnError: false
+        inputs:
+          command: custom
+          custom: nuget
+          arguments: >
+            push "$(Build.ArtifactStagingDirectory)/**/*.nupkg"
+            -s https://nuget.pkg.github.com/feramor/index.json
+            -k $(GitHubApiKey)
+            --skip-duplicate
