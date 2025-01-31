@@ -5,13 +5,14 @@ import { CoreModule } from '@abp/ng.core';
 import { ThemeSharedModule } from '@abp/ng.theme.shared';
 import { NgxValidateCoreModule } from '@ngx-validate/core';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 
 const components = [
   ElasticSearchSettingsComponent
 ];
 
 @NgModule({
-  imports: [CoreModule, ThemeSharedModule, NgxValidateCoreModule, NgSelectModule],
+  imports: [CoreModule, ThemeSharedModule, NgxValidateCoreModule, NgSelectModule, NgbNavModule],
   exports: [...components],
   declarations: [...components],
 })

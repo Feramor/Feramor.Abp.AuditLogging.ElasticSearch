@@ -1,20 +1,24 @@
 {
   "culture": "tr",
   "texts": {
-    "ErrorCodes:Error:000001": "URI, http(s):// ile başlamalıdır.",
-    "ErrorCodes:Error:000002": "URI, https:// ile başlamalıdır.",
+    "ErrorCodes:Error:000001": "URI http(s):// ile başlamalıdır.",
+    "ErrorCodes:Error:000002": "URI https:// ile başlamalıdır.",
     "ErrorCodes:Error:000003": "Elasticsearch sunucusuna bağlanırken bir hata oluştu.",
-    "ErrorCodes:Error:000004": "Elasticsearch'te indeks oluşturulurken bir hata oluştu.",
+    "ErrorCodes:Error:000004": "Elasticsearch içinde dizin oluşturulurken bir hata oluştu.",
     "ErrorCodes:Error:000005": "Günlük dönüştürülürken bir hata oluştu.",
     "ErrorCodes:Error:000006": "Günlük Elasticsearch'e gönderilirken bir hata oluştu.",
+    "ErrorCodes:Error:000007": "Dizinler alınırken bir hata oluştu.",
+    "ErrorCodes:Error:000008": "Dizinler silinirken bir hata oluştu.",
+    "ErrorCodes:Error:000009": "Cron ifadesi geçersiz. Lütfen geçerli bir cron ifadesi girdiğinizden emin olun.",
     "Title:ElasticSearchSettings": "Elasticsearch Ayarları",
+    "Title:ElasticSearchAuditLogDeleterSettings": "Elasticsearch Denetim Günlüğü Temizleme Ayarları",
     "Menu:ElasticSearch": "Elasticsearch Ayarları",
     "Button:TestConnection": "Bağlantıyı Test Et",
     "DisplayName:IsActive": "Elasticsearch denetim günlüğünü etkinleştir",
     "DisplayName:Uri": "Ana Bilgisayar Adı",
     "DisplayName:UseSsl": "Elasticsearch sunucusuna bağlanırken SSL kullan",
-    "DisplayName:SslFingerprint": "SSL Sertifikası Parmak İzi",
-    "DisplayName:Index": "Elasticsearch İndeksi",
+    "DisplayName:SslFingerprint": "SSL Sertifika Parmak İzi",
+    "DisplayName:Index": "Elasticsearch Dizin",
     "DisplayName:AuthenticationType": "Kimlik Doğrulama Türü",
     "DisplayName:Username": "Kullanıcı Adı",
     "DisplayName:Password": "Şifre",
@@ -25,6 +29,11 @@
     "DisplayName:ChangeApiKey": "API Anahtarını Değiştir",
     "DisplayName:AuthenticationType:BasicAuthentication": "Temel Kimlik Doğrulama",
     "DisplayName:AuthenticationType:ApiKeyAuthentication": "API Anahtarı",
-    "DisplayName:AuthenticationType:Base64ApiKey": "Şifrelenmiş API Anahtarı"
+    "DisplayName:AuthenticationType:Base64ApiKey": "Şifrelenmiş API Anahtarı",
+    "DisplayName:PeriodicDeleterCron": "Cron ifadesi (Zamanlanmış günlük temizleme işlemi)",
+    "DisplayName:PeriodicDeleterPeriod": "Belirtilen gün sayısından daha eski günlükleri sil",
+    "DisplayName:IsPeriodicDeleterEnabled": "Periyodik günlük temizleyiciyi etkinleştir.",
+    "Permission:ElasticSearch": "Elasticsearch yönetimi",
+    "Permission:SettingManagement": "Elasticsearch ayar yönetimi"
   }
 }

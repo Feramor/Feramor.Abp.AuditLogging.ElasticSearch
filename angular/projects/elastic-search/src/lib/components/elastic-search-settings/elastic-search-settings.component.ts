@@ -1,14 +1,10 @@
 import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { ConfigStateService } from '@abp/ng.core';
-import {
-  ElasticSearchAuditLogSettingsDto,
-  ElasticSearchSettingsService,
-  UpdateElasticSearchAuditLogSettingsDto
-} from '../../proxy/settings';
 import { collapse, ToasterService } from '@abp/ng.theme.shared';
 import { finalize, map, Observable } from 'rxjs';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { ElasticSearchAuthenticationType, elasticSearchAuthenticationTypeOptions } from '../../proxy/enums';
+import { ElasticSearchAuditLogSettingsDto, ElasticSearchSettingsService } from '@feramor/ng.abp-audit-logging-elastic-search/proxy';
+import { ElasticSearchAuthenticationType, elasticSearchAuthenticationTypeOptions } from '@feramor/ng.abp-audit-logging-elastic-search/proxy';
 
 @Component({
   selector: 'lib-elastic-search-settings',
@@ -37,13 +33,6 @@ export class ElasticSearchSettingsComponent implements OnInit  {
 
   elasticSearchAuthenticationTypes = elasticSearchAuthenticationTypeOptions;
 
-  cars = [
-    { id: 1, name: 'Volvo' },
-    { id: 2, name: 'Saab' },
-    { id: 3, name: 'Opel' },
-    { id: 4, name: 'Audi' },
-  ];
-
   constructor(
     private configStateService: ConfigStateService,
     private service: ElasticSearchSettingsService
@@ -58,7 +47,7 @@ export class ElasticSearchSettingsComponent implements OnInit  {
 
   protected buildForm(settings: ElasticSearchAuditLogSettingsDto) {
     this.form = this.fb.group({
-      isActive: [settings.isActive, []],
+      isActive: [settings.isActive, [Validators.required]],
       uri: [settings.uri, [Validators.required]],
       useSsl: [settings.useSsl, []],
       sslFingerprint: [settings.sslFingerprint, []],
@@ -71,6 +60,9 @@ export class ElasticSearchSettingsComponent implements OnInit  {
       apiKey: [undefined, []],
       changeApiKeyId: [false, []],
       apiKeyId: [undefined, []],
+      isPeriodicDeleterEnabled: [settings.isPeriodicDeleterEnabled, [Validators.required]],
+      periodicDeleterCron: [settings.periodicDeleterCron, [Validators.required]],
+      periodicDeleterPeriod: [settings.periodicDeleterPeriod, [Validators.required, Validators.min(1)]],
     });
 
     this.useSslChanged(settings.useSsl);

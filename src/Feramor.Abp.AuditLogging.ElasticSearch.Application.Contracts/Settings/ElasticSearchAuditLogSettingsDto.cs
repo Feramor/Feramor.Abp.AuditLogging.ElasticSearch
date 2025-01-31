@@ -11,4 +11,7 @@ public class ElasticSearchAuditLogSettingsDto
     public ElasticSearchAuthenticationType? AuthenticationType { get; set; }
     public string? Username { get; set; }
     public required string Index { get; set; }
+    public required bool IsPeriodicDeleterEnabled { get; set; }
+    public required string PeriodicDeleterCron { get; set; }
+    public required int PeriodicDeleterPeriod { get; set; }
 }
