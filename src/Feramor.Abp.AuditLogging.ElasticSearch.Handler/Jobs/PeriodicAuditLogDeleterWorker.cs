@@ -56,14 +56,13 @@ public class PeriodicAuditLogDeleterWorker : AsyncPeriodicBackgroundWorkerBase
                 Logger.LogInformation("Periodic audit log deleter worker started");
                 
                 var indices = await elasticSearchManager.GetIndicesAsync();
-                
-                if (indices.Count > 0)
+                var indicesToRemoved = indices
+                    .Select(x => DateTime.ParseExact(x.RemovePreFix($"{options.Value.Index}-"), "yyyy-MM-dd", CultureInfo.InvariantCulture))
+                    .Where(x => x < clock.Now.Subtract(TimeSpan.FromDays(options.Value.PeriodicDeleterPeriod)))
+                    .Select(x => $"{options.Value.Index}-{x:yyyy-MM-dd}")
+                    .ToList();
+                if (indicesToRemoved.Count > 0)
                 {
-                    var indicesToRemoved = indices
-                        .Select(x => DateTime.ParseExact(x.RemovePreFix($"{options.Value.Index}-"), "yyyy-MM-dd", CultureInfo.InvariantCulture))
-                        .Where(x => x < clock.Now.Subtract(TimeSpan.FromDays(options.Value.PeriodicDeleterPeriod)))
-                        .Select(x => $"{options.Value.Index}-{x:yyyy-MM-dd}")
-                        .ToList();
                     await elasticSearchManager.DeleteIndicesAsync(indicesToRemoved);
                 }
                 

@@ -10,4 +10,5 @@ public static class ElasticSearchErrorCodes
     public const string CreateDocumentFailed = "ErrorCodes:Error:000006";
     public const string GetIndicesFailed = "ErrorCodes:Error:000007";
     public const string DeleteIndicesFailed = "ErrorCodes:Error:000008";
+    public const string PeriodicDeleterCronIsInvalid = "ErrorCodes:Error:000009";
 }

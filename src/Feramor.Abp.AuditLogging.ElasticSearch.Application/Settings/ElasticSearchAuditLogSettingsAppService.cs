@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Threading.Tasks;
 using Elastic.Clients.Elasticsearch;
 using Elastic.Transport;
@@ -7,10 +8,13 @@ using Feramor.Abp.AuditLogging.ElasticSearch.Managers;
 using Feramor.Abp.AuditLogging.ElasticSearch.Permissions;
 using Feramor.Abp.AuditLogging.ElasticSearch.Settings;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
+using NCrontab;
 using Volo.Abp;
 using Volo.Abp.SettingManagement;
 using Volo.Abp.Settings;
+using Volo.Abp.Timing;
 using Volo.Abp.Validation;
 
 namespace Feramor.Abp.AuditLogging.ElasticSearch.Settings;
@@ -21,12 +25,15 @@ public class ElasticSearchAuditLogSettingsAppService : ElasticSearchAppService, 
     private protected ElasticSearchAuditLogSettings ElasticSearchAuditLogSettings { get; init; }
     private readonly ISettingManager _settingManager;
     private readonly IElasticSearchManager _elasticSearchManager;
-
+    private readonly IClock _clock;
+    private readonly IDistributedCache _distributedCache;
     
-    public ElasticSearchAuditLogSettingsAppService(IOptions<ElasticSearchAuditLogSettings> elasticSearchAuditLogSettings, ISettingManager settingManager, IElasticSearchManager elasticSearchManager)
+    public ElasticSearchAuditLogSettingsAppService(IOptions<ElasticSearchAuditLogSettings> elasticSearchAuditLogSettings, ISettingManager settingManager, IElasticSearchManager elasticSearchManager, IClock clock, IDistributedCache distributedCache)
     {
         _settingManager = settingManager;
         _elasticSearchManager = elasticSearchManager;
+        _clock = clock;
+        _distributedCache = distributedCache;
         ElasticSearchAuditLogSettings = elasticSearchAuditLogSettings.Value;
     }
     
@@ -50,7 +57,9 @@ public class ElasticSearchAuditLogSettingsAppService : ElasticSearchAppService, 
     public async Task UpdateAsync(UpdateElasticSearchAuditLogSettingsDto input)
     {
         Check.NotNullOrWhiteSpace(input.Uri, nameof(input.Uri));
-        
+        Check.NotNullOrWhiteSpace(input.PeriodicDeleterCron, nameof(input.PeriodicDeleterCron));
+        Check.Positive(input.PeriodicDeleterPeriod, nameof(input.PeriodicDeleterPeriod));
+
         if (!input.Uri.StartsWith("https://") && !input.Uri.StartsWith("http://"))
         {
             throw new BusinessException(ElasticSearchErrorCodes.UriMustStartWithHttpOrHttps);
@@ -95,7 +104,22 @@ public class ElasticSearchAuditLogSettingsAppService : ElasticSearchAppService, 
             default:
                 throw new ArgumentOutOfRangeException();
         }
-        
+
+        try
+        { 
+            CrontabSchedule.Parse(input.PeriodicDeleterCron);
+            var schedule = CrontabSchedule.Parse(input.PeriodicDeleterCron, new CrontabSchedule.ParseOptions()
+            {
+                IncludingSeconds = false
+            });
+            var nextDate = schedule.GetNextOccurrence(_clock.Now);
+            
+            await _distributedCache.SetStringAsync($"Next:PeriodicAuditLogDeleterWorker", nextDate.ToString("O", CultureInfo.InvariantCulture));
+        }
+        catch (Exception e)
+        {
+            throw new BusinessException(ElasticSearchErrorCodes.PeriodicDeleterCronIsInvalid, innerException: e);
+        }
         
         await _settingManager.SetGlobalAsync(ElasticSearchSettings.IsActive, input.IsActive.ToString());
         await _settingManager.SetGlobalAsync(ElasticSearchSettings.Uri, input.Uri);

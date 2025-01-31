@@ -873,70 +873,6 @@
       "rootPath": "elasticSearch",
       "remoteServiceName": "ElasticSearch",
       "controllers": {
-        "Feramor.Abp.AuditLogging.ElasticSearch.Samples.SampleController": {
-          "controllerName": "Sample",
-          "controllerGroupName": "Sample",
-          "isRemoteService": true,
-          "isIntegrationService": false,
-          "apiVersion": null,
-          "type": "Feramor.Abp.AuditLogging.ElasticSearch.Samples.SampleController",
-          "interfaces": [
-            {
-              "type": "Feramor.Abp.AuditLogging.ElasticSearch.Samples.ISampleAppService",
-              "name": "ISampleAppService",
-              "methods": [
-                {
-                  "name": "GetAsync",
-                  "parametersOnMethod": [],
-                  "returnValue": {
-                    "type": "Feramor.Abp.AuditLogging.ElasticSearch.Samples.SampleDto",
-                    "typeSimple": "Feramor.Abp.AuditLogging.ElasticSearch.Samples.SampleDto"
-                  }
-                },
-                {
-                  "name": "GetAuthorizedAsync",
-                  "parametersOnMethod": [],
-                  "returnValue": {
-                    "type": "Feramor.Abp.AuditLogging.ElasticSearch.Samples.SampleDto",
-                    "typeSimple": "Feramor.Abp.AuditLogging.ElasticSearch.Samples.SampleDto"
-                  }
-                }
-              ]
-            }
-          ],
-          "actions": {
-            "GetAsync": {
-              "uniqueName": "GetAsync",
-              "name": "GetAsync",
-              "httpMethod": "GET",
-              "url": "api/ElasticSearch/sample",
-              "supportedVersions": [],
-              "parametersOnMethod": [],
-              "parameters": [],
-              "returnValue": {
-                "type": "Feramor.Abp.AuditLogging.ElasticSearch.Samples.SampleDto",
-                "typeSimple": "Feramor.Abp.AuditLogging.ElasticSearch.Samples.SampleDto"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "Feramor.Abp.AuditLogging.ElasticSearch.Samples.ISampleAppService"
-            },
-            "GetAuthorizedAsync": {
-              "uniqueName": "GetAuthorizedAsync",
-              "name": "GetAuthorizedAsync",
-              "httpMethod": "GET",
-              "url": "api/ElasticSearch/sample/authorized",
-              "supportedVersions": [],
-              "parametersOnMethod": [],
-              "parameters": [],
-              "returnValue": {
-                "type": "Feramor.Abp.AuditLogging.ElasticSearch.Samples.SampleDto",
-                "typeSimple": "Feramor.Abp.AuditLogging.ElasticSearch.Samples.SampleDto"
-              },
-              "allowAnonymous": false,
-              "implementFrom": "Feramor.Abp.AuditLogging.ElasticSearch.Samples.ISampleAppService"
-            }
-          }
-        },
         "Feramor.Abp.AuditLogging.ElasticSearch.Settings.ElasticSearchSettingsController": {
           "controllerName": "ElasticSearchSettings",
           "controllerGroupName": "ElasticSearchSettings",
@@ -3716,27 +3652,6 @@
       "genericArguments": null,
       "properties": null
     },
-    "Feramor.Abp.AuditLogging.ElasticSearch.Samples.SampleDto": {
-      "baseType": null,
-      "isEnum": false,
-      "enumNames": null,
-      "enumValues": null,
-      "genericArguments": null,
-      "properties": [
-        {
-          "name": "Value",
-          "jsonName": null,
-          "type": "System.Int32",
-          "typeSimple": "number",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        }
-      ]
-    },
     "Feramor.Abp.AuditLogging.ElasticSearch.Settings.ElasticSearchAuditLogSettingsDto": {
       "baseType": null,
       "isEnum": false,
@@ -3821,6 +3736,42 @@
           "jsonName": null,
           "type": "System.String",
           "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "IsPeriodicDeleterEnabled",
+          "jsonName": null,
+          "type": "System.Boolean",
+          "typeSimple": "boolean",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "PeriodicDeleterCron",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "PeriodicDeleterPeriod",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,
@@ -3950,6 +3901,42 @@
           "jsonName": null,
           "type": "System.String",
           "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "IsPeriodicDeleterEnabled",
+          "jsonName": null,
+          "type": "System.Boolean",
+          "typeSimple": "boolean",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "PeriodicDeleterCron",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "PeriodicDeleterPeriod",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,

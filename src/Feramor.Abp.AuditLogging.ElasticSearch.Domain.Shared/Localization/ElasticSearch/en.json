@@ -7,7 +7,11 @@
     "ErrorCodes:Error:000004": "An error occurred while creating the index in Elasticsearch.",
     "ErrorCodes:Error:000005": "An error occurred while converting the log.",
     "ErrorCodes:Error:000006": "An error occurred while sending the log to Elasticsearch.",
+    "ErrorCodes:Error:000007": "An error occurred while getting the indices.",
+    "ErrorCodes:Error:000008": "An error occurred while deleting the indices.",
+    "ErrorCodes:Error:000009": "The cron expression is invalid. Please make sure you have entered a valid cron expression.",
     "Title:ElasticSearchSettings": "Elasticsearch Settings",
+    "Title:ElasticSearchAuditLogDeleterSettings": "Elasticsearch Audit Log Deleter Settings",
     "Menu:ElasticSearch": "Elasticsearch Settings",
     "Button:TestConnection": "Test Connection",
     "DisplayName:IsActive": "Enable Elasticsearch audit logging",
@@ -25,6 +29,11 @@
     "DisplayName:ChangeApiKey": "Change Api Key",
     "DisplayName:AuthenticationType:BasicAuthentication": "Basic Authentication",
     "DisplayName:AuthenticationType:ApiKeyAuthentication": "Api Key",
-    "DisplayName:AuthenticationType:Base64ApiKey": "Encrypted Api Key"
+    "DisplayName:AuthenticationType:Base64ApiKey": "Encrypted Api Key",
+    "DisplayName:PeriodicDeleterCron": "Cron expression (Time-based log deletion schedule)",
+    "DisplayName:PeriodicDeleterPeriod": "Delete logs older than the specified number of days",
+    "DisplayName:IsPeriodicDeleterEnabled": "Enable periodic log cleaner.",
+    "Permission:ElasticSearch": "Elastic search management",
+    "Permission:SettingManagement": "Elastic search settings management"
   }
 }
