@@ -10,9 +10,7 @@
       ],
       "@feramor/ng.abp-audit-logging-elastic-search/proxy": [
         "projects/elastic-search/proxy/src/public-api.ts"
-      ],
-      "@proxy": ["projects/elastic-search/proxy/src/lib/proxy/index.ts"],
-      "@proxy/*": ["projects/elastic-search/proxy/src/lib/proxy/*"]
+      ]
     }
   }
 }

@@ -3,8 +3,8 @@ import { ConfigStateService } from '@abp/ng.core';
 import { collapse, ToasterService } from '@abp/ng.theme.shared';
 import { finalize, map, Observable } from 'rxjs';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { ElasticSearchAuditLogSettingsDto, ElasticSearchSettingsService } from '@proxy/settings';
-import { ElasticSearchAuthenticationType, elasticSearchAuthenticationTypeOptions } from '@proxy/enums';
+import { ElasticSearchAuditLogSettingsDto, ElasticSearchSettingsService } from '@feramor/ng.abp-audit-logging-elastic-search/proxy';
+import { ElasticSearchAuthenticationType, elasticSearchAuthenticationTypeOptions } from '@feramor/ng.abp-audit-logging-elastic-search/proxy';
 
 @Component({
   selector: 'lib-elastic-search-settings',
