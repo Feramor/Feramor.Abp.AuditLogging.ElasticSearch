@@ -1,15 +1,21 @@
 ﻿using System;
+using System.Globalization;
 using System.Threading.Tasks;
 using Feramor.Abp.AuditLogging.ElasticSearch.Enums;
 using Feramor.Abp.AuditLogging.ElasticSearch.Settings;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using NCrontab;
 using Volo.Abp;
 using Volo.Abp.AuditLogging;
+using Volo.Abp.BackgroundJobs;
+using Volo.Abp.BackgroundWorkers;
 using Volo.Abp.Domain;
 using Volo.Abp.Modularity;
 using Volo.Abp.SettingManagement;
 using Volo.Abp.Settings;
+using Volo.Abp.Timing;
 
 namespace Feramor.Abp.AuditLogging.ElasticSearch;
 
@@ -29,7 +35,7 @@ public class ElasticSearchDomainModule : AbpModule
         return base.ConfigureServicesAsync(context);
     }
 
-    public override Task OnPostApplicationInitializationAsync(ApplicationInitializationContext context)
+    public override async Task OnPostApplicationInitializationAsync(ApplicationInitializationContext context)
     {
         var options = context.ServiceProvider.GetRequiredService<IOptions<ElasticSearchAuditLogSettings>>();
         var settingManager = context.ServiceProvider.GetRequiredService<ISettingProvider>();
@@ -44,7 +50,10 @@ public class ElasticSearchDomainModule : AbpModule
         options.Value.ApiKey = settingManager.GetOrNullAsync(ElasticSearchSettings.ApiKey).GetAwaiter().GetResult();
         options.Value.ApiKeyId = settingManager.GetOrNullAsync(ElasticSearchSettings.ApiKeyId).GetAwaiter().GetResult();
         options.Value.Index = settingManager.GetOrNullAsync(ElasticSearchSettings.Index).GetAwaiter().GetResult() ?? "feramor-abp-audit-logging";
+        options.Value.IsPeriodicDeleterEnabled = settingManager.GetOrNullAsync(ElasticSearchSettings.IsPeriodicDeleterEnabled).GetAwaiter().GetResult()?.To<bool>() ?? false;
+        options.Value.PeriodicDeleterCron = settingManager.GetOrNullAsync(ElasticSearchSettings.PeriodicDeleterCron).GetAwaiter().GetResult() ?? "0 0 * * *";
+        options.Value.PeriodicDeleterPeriod = settingManager.GetOrNullAsync(ElasticSearchSettings.PeriodicDeleterPeriod).GetAwaiter().GetResult()?.To<int>() ?? 0;
         
-        return base.OnPostApplicationInitializationAsync(context);
+        await base.OnPostApplicationInitializationAsync(context);
     }
 }

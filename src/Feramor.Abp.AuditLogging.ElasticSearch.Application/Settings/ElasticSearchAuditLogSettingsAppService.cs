@@ -40,7 +40,10 @@ public class ElasticSearchAuditLogSettingsAppService : ElasticSearchAppService, 
             SslFingerprint = ElasticSearchAuditLogSettings.SslFingerprint,
             AuthenticationType = ElasticSearchAuditLogSettings.AuthenticationType,
             Username = ElasticSearchAuditLogSettings.Username,
-            Index = ElasticSearchAuditLogSettings.Index
+            Index = ElasticSearchAuditLogSettings.Index,
+            IsPeriodicDeleterEnabled = ElasticSearchAuditLogSettings.IsPeriodicDeleterEnabled,
+            PeriodicDeleterCron = ElasticSearchAuditLogSettings.PeriodicDeleterCron,
+            PeriodicDeleterPeriod = ElasticSearchAuditLogSettings.PeriodicDeleterPeriod
         });
     }
 
@@ -100,6 +103,9 @@ public class ElasticSearchAuditLogSettingsAppService : ElasticSearchAppService, 
         await _settingManager.SetGlobalAsync(ElasticSearchSettings.SslFingerprint, input.SslFingerprint);
         await _settingManager.SetGlobalAsync(ElasticSearchSettings.AuthenticationType, ((int?)input.AuthenticationType)?.ToString());
         await _settingManager.SetGlobalAsync(ElasticSearchSettings.Index, input.Index);
+        await _settingManager.SetGlobalAsync(ElasticSearchSettings.IsPeriodicDeleterEnabled, input.IsPeriodicDeleterEnabled.ToString());
+        await _settingManager.SetGlobalAsync(ElasticSearchSettings.PeriodicDeleterCron, input.PeriodicDeleterCron);
+        await _settingManager.SetGlobalAsync(ElasticSearchSettings.PeriodicDeleterPeriod, input.PeriodicDeleterPeriod.ToString());
 
         ElasticSearchAuditLogSettings.IsActive = input.IsActive;
         ElasticSearchAuditLogSettings.Uri = input.Uri;
@@ -107,6 +113,9 @@ public class ElasticSearchAuditLogSettingsAppService : ElasticSearchAppService, 
         ElasticSearchAuditLogSettings.SslFingerprint = input.SslFingerprint;
         ElasticSearchAuditLogSettings.AuthenticationType = input.AuthenticationType;
         ElasticSearchAuditLogSettings.Index = input.Index;
+        ElasticSearchAuditLogSettings.IsPeriodicDeleterEnabled = input.IsPeriodicDeleterEnabled;
+        ElasticSearchAuditLogSettings.PeriodicDeleterCron = input.PeriodicDeleterCron;
+        ElasticSearchAuditLogSettings.PeriodicDeleterPeriod = input.PeriodicDeleterPeriod;
         
         switch (input.AuthenticationType)
         {

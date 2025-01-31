@@ -15,9 +15,12 @@ public class ElasticSearchAuditLogSettings
     public ElasticSearchAuthenticationType? AuthenticationType { get; set; }
     public string? Username { get; set; }
     public string? Password { get; set; }
-    public string? ApiKey { get; set; }
+    public string? ApiKey { get; set; } 
     public string? ApiKeyId { get; set; }
     public required string Index { get; set; } = "feramor-abp-audit-logging";
+    public bool IsPeriodicDeleterEnabled { get; set; } = false;
+    public string PeriodicDeleterCron { get; set; } = "0 0 * * *";
+    public int PeriodicDeleterPeriod { get; set; } = 1;
 
     public ElasticsearchClientSettings GetElasticsearchClientSettings()
     {

@@ -20,4 +20,7 @@ public class UpdateElasticSearchAuditLogSettingsDto
     [DisableAuditing]
     public string? ApiKeyId { get; set; }
     public required string Index { get; set; }
+    public required bool IsPeriodicDeleterEnabled { get; set; }
+    public required string PeriodicDeleterCron { get; set; }
+    public required int PeriodicDeleterPeriod { get; set; }
 }
