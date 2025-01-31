@@ -14,4 +14,7 @@ public static class ElasticSearchSettings
     public const string ApiKey = GroupName + ".ApiKey";
     public const string ApiKeyId = GroupName + ".ApiKeyId";
     public const string Index = GroupName + ".Index";
+    public const string IsPeriodicDeleterEnabled = GroupName + ".IsPeriodicDeleterEnabled";
+    public const string PeriodicDeleterCron = GroupName + ".PeriodicDeleterCron";
+    public const string PeriodicDeleterPeriod = GroupName + ".PeriodicDeleterPeriod";
 }

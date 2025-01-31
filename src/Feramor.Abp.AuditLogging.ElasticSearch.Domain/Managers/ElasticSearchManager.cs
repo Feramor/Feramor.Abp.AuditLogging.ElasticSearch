@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Elastic.Clients.Elasticsearch;
 using Elastic.Clients.Elasticsearch.Mapping;
@@ -22,11 +23,10 @@ public class ElasticSearchManager : DomainService, IElasticSearchManager
     private protected ElasticSearchAuditLogSettings ElasticSearchAuditLogSettings { get; init; }
     private protected ElasticsearchClient ElasticsearchClient { get; init; }
     private readonly IClock _clock;
-    private readonly IGuidGenerator _guidGenerator;
-    public ElasticSearchManager(IOptions<ElasticSearchAuditLogSettings> elasticSearchAuditLogSettings, IClock clock, IGuidGenerator guidGenerator)
+    
+    public ElasticSearchManager(IOptions<ElasticSearchAuditLogSettings> elasticSearchAuditLogSettings, IClock clock)
     {
         _clock = clock;
-        _guidGenerator = guidGenerator;
         ElasticSearchAuditLogSettings = elasticSearchAuditLogSettings.Value;
         ElasticsearchClient = new ElasticsearchClient(ElasticSearchAuditLogSettings.GetElasticsearchClientSettings());
     }
@@ -38,27 +38,10 @@ public class ElasticSearchManager : DomainService, IElasticSearchManager
         {
             throw new BusinessException(ElasticSearchErrorCodes.TestFailed, ping.ApiCallDetails.OriginalException?.Message);
         }
-        var index = $"{ElasticSearchAuditLogSettings.Index}-{_clock.Now:yyyy-MM-dd}";
-        await CreateIndexIfNotExistsAsync(index);
+        await CreateIndexIfNotExistsAsync($"{ElasticSearchAuditLogSettings.Index}-{_clock.Now:yyyy-MM-dd}");
         return true;
     }
-
-    public async Task<bool> SaveLogAsync(object logInfo) 
-    {
-        if (logInfo is not ElasticSearchAuditLogInfoEto eto)
-        {
-            throw new BusinessException(ElasticSearchErrorCodes.InvalidLogType);
-        }
-        var index = $"{ElasticSearchAuditLogSettings.Index}-{eto.ExecutionTime:yyyy-MM-dd}";
-        await CreateIndexIfNotExistsAsync(index);
-        var response = await ElasticsearchClient.CreateAsync<AuditLog>(eto, index: index);
-        if (!response.IsValidResponse)
-        {
-            throw new BusinessException(ElasticSearchErrorCodes.CreateDocumentFailed, response.ApiCallDetails.OriginalException?.Message);
-        }
-        return true;
-    }
-
+    
     private async Task CreateIndexIfNotExistsAsync(string index)
     {
         var isExist = await ElasticsearchClient.Indices.GetAsync<AuditLog>(index);
@@ -186,6 +169,41 @@ public class ElasticSearchManager : DomainService, IElasticSearchManager
         if (!response.IsValidResponse)
         {
             throw new BusinessException(ElasticSearchErrorCodes.CreateIndexFailed, response.ApiCallDetails.OriginalException?.Message);
+        }
+    }
+    
+    public async Task<bool> SaveLogAsync(object logInfo) 
+    {
+        if (logInfo is not ElasticSearchAuditLogInfoEto eto)
+        {
+            throw new BusinessException(ElasticSearchErrorCodes.InvalidLogType);
+        }
+        await CreateIndexIfNotExistsAsync($"{ElasticSearchAuditLogSettings.Index}-{eto.ExecutionTime:yyyy-MM-dd}");
+        var response = await ElasticsearchClient.CreateAsync<AuditLog>(eto, index: $"{ElasticSearchAuditLogSettings.Index}-{eto.ExecutionTime:yyyy-MM-dd}");
+        if (!response.IsValidResponse)
+        {
+            throw new BusinessException(ElasticSearchErrorCodes.CreateDocumentFailed, response.ApiCallDetails.OriginalException?.Message);
+        }
+        return true;
+    }
+
+    public async Task<List<string>> GetIndicesAsync()
+    {
+        var index = $"{ElasticSearchAuditLogSettings.Index}-*";
+        var response = await ElasticsearchClient.Indices.GetAsync<AuditLog>(index);
+        if (!response.IsValidResponse)
+        {
+            throw new BusinessException(ElasticSearchErrorCodes.GetIndicesFailed, response.ApiCallDetails.OriginalException?.Message);
+        }
+        return response.Indices.Select(x => x.Key.ToString()).ToList();
+    }
+
+    public async Task DeleteIndicesAsync(List<string> indices)
+    {
+        var response = await ElasticsearchClient.Indices.DeleteAsync<AuditLog>(indices.JoinAsString(","));
+        if (!response.IsValidResponse)
+        {
+            throw new BusinessException(ElasticSearchErrorCodes.DeleteIndicesFailed, response.ApiCallDetails.OriginalException?.Message);
         }
     }
 }

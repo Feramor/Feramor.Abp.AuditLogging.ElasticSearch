@@ -19,6 +19,9 @@ public class ElasticSearchSettingDefinitionProvider : SettingDefinitionProvider
         context.Add(new SettingDefinition(ElasticSearchSettings.ApiKey, null, L("DisplayName:ApiKey"), L("Description:ApiKey"), isVisibleToClients: false, isEncrypted: true));
         context.Add(new SettingDefinition(ElasticSearchSettings.ApiKeyId, null, L("DisplayName:ApiKeyId"), L("Description:ApiKeyId"), isVisibleToClients: false, isEncrypted: true));
         context.Add(new SettingDefinition(ElasticSearchSettings.Index, "feramor-abp-audit-logging", L("DisplayName:Index"), L("Description:Index"), isVisibleToClients: false));
+        context.Add(new SettingDefinition(ElasticSearchSettings.IsPeriodicDeleterEnabled, "false", L("DisplayName:IsPeriodicDeleterEnabled"), L("Description:IsPeriodicDeleterEnabled"), isVisibleToClients: false));
+        context.Add(new SettingDefinition(ElasticSearchSettings.PeriodicDeleterCron, "0 0 * * *", L("DisplayName:PeriodicDeleterCron"), L("Description:PeriodicDeleterCron"), isVisibleToClients: false));
+        context.Add(new SettingDefinition(ElasticSearchSettings.PeriodicDeleterPeriod, "1", L("DisplayName:PeriodicDeleterPeriod"), L("Description:PeriodicDeleterPeriod"), isVisibleToClients: false));
     }
     
     private static LocalizableString L(string name)

@@ -1,6 +1,6 @@
 {
   "name": "@feramor/ng.abp-audit-logging-elastic-search",
-  "version": "9.0.4-1",
+  "version": "9.0.4-2",
   "homepage": "https://github.com/feramor",
   "repository": {
     "type": "git",
