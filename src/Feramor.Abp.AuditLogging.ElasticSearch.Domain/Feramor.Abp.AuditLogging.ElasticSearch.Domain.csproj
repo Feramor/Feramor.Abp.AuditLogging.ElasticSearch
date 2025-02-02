@@ -16,6 +16,7 @@
   <ItemGroup>
     <PackageReference Include="Elastic.Clients.Elasticsearch" Version="8.17.1" />
     <PackageReference Include="NCrontab" Version="3.3.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Volo.Abp.AuditLogging.Domain" Version="9.0.4" />
     <PackageReference Include="Volo.Abp.BackgroundJobs.Abstractions" Version="9.0.4" />
     <PackageReference Include="Volo.Abp.Ddd.Domain" Version="9.0.4" />

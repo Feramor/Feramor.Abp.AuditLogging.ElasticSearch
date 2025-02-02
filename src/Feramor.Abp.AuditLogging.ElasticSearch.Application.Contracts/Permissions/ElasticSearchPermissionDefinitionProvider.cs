@@ -9,7 +9,9 @@ public class ElasticSearchPermissionDefinitionProvider : PermissionDefinitionPro
     public override void Define(IPermissionDefinitionContext context)
     {
         var permissionGroup = context.AddGroup(ElasticSearchPermissions.GroupName, L("Permission:ElasticSearch"));
-        var auditLogPermission = permissionGroup.AddPermission(ElasticSearchPermissions.SettingsManagement.Default, L("Permission:SettingManagement"));
+        var settingManagementPermission = permissionGroup.AddPermission(ElasticSearchPermissions.SettingsManagement.Default, L("Permission:SettingManagement"));
+        var auditLogPermission = permissionGroup.AddPermission(ElasticSearchPermissions.AuditLogs.SubGroup, L("Permission:AuditLogs"));
+        auditLogPermission.AddChild(ElasticSearchPermissions.AuditLogs.EntityChange, L("Permission:AuditLogs:EntityChange"));
     }
 
     private static LocalizableString L(string name)
