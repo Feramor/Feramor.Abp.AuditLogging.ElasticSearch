@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <RootNamespace>GeneralTest</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GeneralTest.Domain.Shared\GeneralTest.Domain.Shared.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Feramor.Abp.AuditLogging.ElasticSearch.Application.Contracts" Version="9.0.4.3" />
+    <PackageReference Include="Volo.Abp.PermissionManagement.Application.Contracts" Version="9.0.4" />
+    <PackageReference Include="Volo.Abp.FeatureManagement.Application.Contracts" Version="9.0.4" />
+    <PackageReference Include="Volo.Abp.SettingManagement.Application.Contracts" Version="9.0.4" />
+    <PackageReference Include="Volo.Abp.Identity.Application.Contracts" Version="9.0.4" />
+    <PackageReference Include="Volo.Abp.Account.Application.Contracts" Version="9.0.4" />
+    <PackageReference Include="Volo.Abp.TenantManagement.Application.Contracts" Version="9.0.4" />
+  </ItemGroup>
+
+</Project>
