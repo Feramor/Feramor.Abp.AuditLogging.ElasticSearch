@@ -1,0 +1,101 @@
+{
+  "template": "app",
+  "imports": {
+    "Volo.Abp.LeptonXLiteTheme": {
+      "version": "4.0.5",
+      "isInstalled": true
+    },
+    "Volo.Abp.Account": {
+      "version": "9.0.4",
+      "isInstalled": true
+    },
+    "Volo.Abp.OpenIddict": {
+      "version": "9.0.4",
+      "isInstalled": true
+    },
+    "Volo.Abp.Identity": {
+      "version": "9.0.4",
+      "isInstalled": true
+    },
+    "Volo.Abp.TenantManagement": {
+      "version": "9.0.4",
+      "isInstalled": true
+    },
+    "Volo.Abp.SettingManagement": {
+      "version": "9.0.4",
+      "isInstalled": true
+    },
+    "Volo.Abp.PermissionManagement": {
+      "version": "9.0.4",
+      "isInstalled": true
+    },
+    "Volo.Abp.FeatureManagement": {
+      "version": "9.0.4",
+      "isInstalled": true
+    }
+  },
+  "folders": {
+    "items": {
+      "src": {},
+      "test": {}
+    }
+  },
+  "packages": {
+    "GeneralTest.Application": {
+      "path": "src/GeneralTest.Application/GeneralTest.Application.abppkg",
+      "folder": "src"
+    },
+    "GeneralTest.Application.Tests": {
+      "path": "test/GeneralTest.Application.Tests/GeneralTest.Application.Tests.abppkg",
+      "folder": "test"
+    },
+    "GeneralTest.Domain.Shared": {
+      "path": "src/GeneralTest.Domain.Shared/GeneralTest.Domain.Shared.abppkg",
+      "folder": "src"
+    },
+    "GeneralTest.Application.Contracts": {
+      "path": "src/GeneralTest.Application.Contracts/GeneralTest.Application.Contracts.abppkg",
+      "folder": "src"
+    },
+    "GeneralTest.HttpApi": {
+      "path": "src/GeneralTest.HttpApi/GeneralTest.HttpApi.abppkg",
+      "folder": "src"
+    },
+    "GeneralTest.HttpApi.Client": {
+      "path": "src/GeneralTest.HttpApi.Client/GeneralTest.HttpApi.Client.abppkg",
+      "folder": "src"
+    },
+    "GeneralTest.EntityFrameworkCore.Tests": {
+      "path": "test/GeneralTest.EntityFrameworkCore.Tests/GeneralTest.EntityFrameworkCore.Tests.abppkg",
+      "folder": "test"
+    },
+    "GeneralTest.EntityFrameworkCore": {
+      "path": "src/GeneralTest.EntityFrameworkCore/GeneralTest.EntityFrameworkCore.abppkg",
+      "folder": "src"
+    },
+    "GeneralTest.TestBase": {
+      "path": "test/GeneralTest.TestBase/GeneralTest.TestBase.abppkg",
+      "folder": "test"
+    },
+    "GeneralTest.Domain.Tests": {
+      "path": "test/GeneralTest.Domain.Tests/GeneralTest.Domain.Tests.abppkg",
+      "folder": "test"
+    },
+    "GeneralTest.HttpApi.Client.ConsoleTestApp": {
+      "path": "test/GeneralTest.HttpApi.Client.ConsoleTestApp/GeneralTest.HttpApi.Client.ConsoleTestApp.abppkg",
+      "folder": "test"
+    },
+    "GeneralTest.DbMigrator": {
+      "path": "src/GeneralTest.DbMigrator/GeneralTest.DbMigrator.abppkg",
+      "folder": "src"
+    },
+    "GeneralTest.HttpApi.Host": {
+      "path": "src/GeneralTest.HttpApi.Host/GeneralTest.HttpApi.Host.abppkg",
+      "folder": "src"
+    },
+    "GeneralTest.Domain": {
+      "path": "src/GeneralTest.Domain/GeneralTest.Domain.abppkg",
+      "folder": "src"
+    }
+  }
+}

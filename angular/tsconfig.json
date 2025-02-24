@@ -8,6 +8,9 @@
       "@feramor/ng.abp-audit-logging-elastic-search/config": [
         "projects/elastic-search/config/src/public-api.ts"
       ],
+      "@feramor/ng.abp-audit-logging-elastic-search/common": [
+        "projects/elastic-search/common/src/public-api.ts"
+      ],
       "@feramor/ng.abp-audit-logging-elastic-search/proxy": [
         "projects/elastic-search/proxy/src/public-api.ts"
       ]

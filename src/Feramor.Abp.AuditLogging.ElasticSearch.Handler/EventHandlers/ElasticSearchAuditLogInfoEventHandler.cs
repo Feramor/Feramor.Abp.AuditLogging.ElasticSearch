@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Feramor.Abp.AuditLogging.ElasticSearch.Eto;
 using Feramor.Abp.AuditLogging.ElasticSearch.Managers;
@@ -10,6 +11,7 @@ using Volo.Abp.Auditing;
 using Volo.Abp.AuditLogging;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EventBus.Distributed;
+using Volo.Abp.Guids;
 
 namespace Feramor.Abp.AuditLogging.ElasticSearch.EventHandlers;
 
@@ -21,10 +23,12 @@ public class ElasticSearchAuditLogInfoEventHandler : IDistributedEventHandler<El
     public ILogger<ElasticSearchAuditLogInfoEventHandler> Logger { get; init; }
     
     private readonly IAuditLogRepository _auditLogRepository;
-    public ElasticSearchAuditLogInfoEventHandler(IOptions<ElasticSearchAuditLogSettings> elasticSearchAuditLogSettings, IOptions<AbpAuditingOptions> abpAuditingOptions,IElasticSearchManager elasticSearchManager, IAuditLogRepository auditLogRepository)
+    private readonly IGuidGenerator _guidGenerator;
+    public ElasticSearchAuditLogInfoEventHandler(IOptions<ElasticSearchAuditLogSettings> elasticSearchAuditLogSettings, IOptions<AbpAuditingOptions> abpAuditingOptions,IElasticSearchManager elasticSearchManager, IAuditLogRepository auditLogRepository, IGuidGenerator guidGenerator)
     {
         _elasticSearchManager = elasticSearchManager;
         _auditLogRepository = auditLogRepository;
+        _guidGenerator = guidGenerator;
 
         ElasticSearchAuditLogSettings = elasticSearchAuditLogSettings.Value;
         AbpAuditingOptions = abpAuditingOptions.Value;
@@ -37,12 +41,12 @@ public class ElasticSearchAuditLogInfoEventHandler : IDistributedEventHandler<El
         {
             if (!AbpAuditingOptions.HideErrors)
             {
-                await _auditLogRepository.InsertAsync(eventData);
+                await _auditLogRepository.InsertAsync(eventData.ToAuditLog(_guidGenerator));
                 return;
             }
             try
             {
-                await _auditLogRepository.InsertAsync(eventData);
+                await _auditLogRepository.InsertAsync(eventData.ToAuditLog(_guidGenerator));
             }
             catch (Exception ex)
             {

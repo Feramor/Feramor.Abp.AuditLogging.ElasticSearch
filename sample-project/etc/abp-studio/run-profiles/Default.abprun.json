@@ -1,0 +1,23 @@
+﻿{
+  "applications": {
+    "GeneralTest.HttpApi.Host": {
+      "type": "dotnet-project",
+      "launchUrl": "https://localhost:44363",
+      "path": "../../../src/GeneralTest.HttpApi.Host/GeneralTest.HttpApi.Host.csproj",
+      "kubernetesService": ".*-httpapihost$",
+      "execution": {
+        "order": 4
+      }
+    },
+    "GeneralTest.Angular": {
+      "type": "cli",
+      "workingDirectory": "../../../angular",
+      "startCommand": "./start.ps1",
+      "launchUrl": "http://localhost:4200",
+      "kubernetesService": ".*-angular$",
+      "execution": {
+        "order": 2
+      }    
+    }
+  }
+}
