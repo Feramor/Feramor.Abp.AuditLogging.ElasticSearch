@@ -11,6 +11,12 @@ public class ElasticSearchPermissions
         public const string Default = GroupName + ".SettingManagement";
     }
     
+    public class AuditLogs
+    {
+        public const string SubGroup = GroupName + ".AuditLogs";
+        public const string EntityChange = SubGroup + ".EntityChanges";
+    }
+    
     public static string[] GetAll()
     {
         return ReflectionHelper.GetPublicConstantsRecursively(typeof(ElasticSearchPermissions));

@@ -30,4 +30,8 @@
     <Content Remove="Localization\ElasticSearch\*.json" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Managers\" />
+  </ItemGroup>
+
 </Project>

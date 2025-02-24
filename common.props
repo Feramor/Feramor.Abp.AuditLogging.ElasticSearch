@@ -2,7 +2,7 @@
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
 	<Authors>Munir Ozan Topcu</Authors>
-    <Version>9.0.4.2</Version>
+    <Version>9.0.4.3</Version>
     <NoWarn>$(NoWarn);CS1591</NoWarn>
     <AbpProjectType>module</AbpProjectType>
     <PackageProjectUrl>https://github.com/Feramor/</PackageProjectUrl>
