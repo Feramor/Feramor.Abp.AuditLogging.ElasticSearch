@@ -1,13 +1,16 @@
 import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
-import { ConfigStateService } from '@abp/ng.core';
 import { collapse, ToasterService } from '@abp/ng.theme.shared';
-import { finalize, map, Observable } from 'rxjs';
+import { ConfigStateService } from '@abp/ng.core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { ElasticSearchAuditLogSettingsDto, ElasticSearchSettingsService } from '@feramor/ng.abp-audit-logging-elastic-search/proxy';
-import { ElasticSearchAuthenticationType, elasticSearchAuthenticationTypeOptions } from '@feramor/ng.abp-audit-logging-elastic-search/proxy';
+import {
+  ElasticSearchAuditLogSettingsDto,
+  ElasticSearchAuthenticationType,
+  elasticSearchAuthenticationTypeOptions, ElasticSearchSettingsService
+} from '@feramor/ng.abp-audit-logging-elastic-search/proxy';
+import { finalize, map, Observable } from 'rxjs';
 
 @Component({
-  selector: 'lib-elastic-search-settings',
+  selector: 'elastic-search-settings',
   templateUrl: './elastic-search-settings.component.html',
   styleUrl: './elastic-search-settings.component.css',
   animations: [collapse]

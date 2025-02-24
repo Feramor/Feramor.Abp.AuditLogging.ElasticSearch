@@ -1,6 +1,6 @@
 {
   "name": "@feramor/ng.abp-audit-logging-elastic-search",
-  "version": "9.0.4-2",
+  "version": "9.0.4-3",
   "homepage": "https://github.com/feramor",
   "repository": {
     "type": "git",
@@ -13,7 +13,8 @@
     "@abp/ng.core": "~9.0.4",
     "@abp/ng.theme.shared": "~9.0.4",
     "@abp/ng.components": "~9.0.4",
-    "@abp/ng.setting-management": "~9.0.4"
+    "@abp/ng.setting-management": "~9.0.4",
+    "@ng-bootstrap/ng-bootstrap": "~18.0.0"
   },
   "dependencies": {
     "tslib": "^2.1.0"

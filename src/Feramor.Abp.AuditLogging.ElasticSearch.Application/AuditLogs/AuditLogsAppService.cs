@@ -1,12 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Feramor.Abp.AuditLogging.ElasticSearch.Data;
 using Feramor.Abp.AuditLogging.ElasticSearch.Managers;
 using Feramor.Abp.AuditLogging.ElasticSearch.Permissions;
 using Microsoft.AspNetCore.Authorization;
+using Newtonsoft.Json;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Auditing;
-using Volo.Abp.AuditLogging;
+using Volo.Abp.Data;
 
 namespace Feramor.Abp.AuditLogging.ElasticSearch.AuditLogs;
 
@@ -15,7 +17,7 @@ namespace Feramor.Abp.AuditLogging.ElasticSearch.AuditLogs;
 public class AuditLogsAppService : ElasticSearchAppService, IAuditLogsAppService
 {
     private readonly IElasticSearchManager _elasticSearchManager;
-    
+
     public AuditLogsAppService(IElasticSearchManager elasticSearchManager)
     {
         _elasticSearchManager = elasticSearchManager;
@@ -24,9 +26,9 @@ public class AuditLogsAppService : ElasticSearchAppService, IAuditLogsAppService
     public async Task<PagedResultDto<AuditLogDto>> GetListAsync(GetAuditLogsDto input)
     {
         var auditLogs = await _elasticSearchManager.GetListAsync(
-            sorting: input.Sorting,
-            maxResultCount: input.MaxResultCount,
-            skipCount: input.SkipCount,
+            input.Sorting,
+            input.MaxResultCount,
+            input.SkipCount,
             httpMethod: input.HttpMethod,
             httpStatusCode: input.HttpStatusCode,
             url: input.Url,
@@ -42,7 +44,7 @@ public class AuditLogsAppService : ElasticSearchAppService, IAuditLogsAppService
             endTime: input.EndTime,
             includeDetails: false
         );
-        
+
         var totalCount = await _elasticSearchManager.GetCountAsync(
             httpMethod: input.HttpMethod,
             httpStatusCode: input.HttpStatusCode,
@@ -58,11 +60,38 @@ public class AuditLogsAppService : ElasticSearchAppService, IAuditLogsAppService
             startTime: input.StartTime,
             endTime: input.EndTime
         );
-        
-        return new PagedResultDto<AuditLogDto>()
+
+        return new PagedResultDto<AuditLogDto>
         {
             TotalCount = totalCount,
             Items = ObjectMapper.Map<List<ElasticSearchAuditLog>, List<AuditLogDto>>(auditLogs)
         };
+    }
+
+    public async Task<AuditLogDto> GetAsync(Guid id)
+    {
+        var log = await _elasticSearchManager.GetAsync(id.ToString());
+        var logDto = ObjectMapper.Map<ElasticSearchAuditLog, AuditLogDto>(log);
+
+        if (logDto.Exceptions.IsNullOrEmpty())
+        {
+            logDto.Exceptions = "[]";
+        }
+        
+        var parsedJson = JsonConvert.DeserializeObject(logDto.Exceptions);
+        logDto.Exceptions = JsonConvert.SerializeObject(parsedJson, Formatting.Indented);
+        
+        foreach (var action in logDto.Actions)
+        {
+            if (action.Parameters.IsNullOrEmpty())
+            {
+                action.Parameters = "{}";
+            }
+
+            parsedJson = JsonConvert.DeserializeObject(action.Parameters);
+            action.Parameters = JsonConvert.SerializeObject(parsedJson, Formatting.Indented);
+        }
+
+        return logDto;
     }
 }

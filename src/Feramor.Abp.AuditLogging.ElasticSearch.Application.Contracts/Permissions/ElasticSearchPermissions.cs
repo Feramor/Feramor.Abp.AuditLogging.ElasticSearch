@@ -14,7 +14,7 @@ public class ElasticSearchPermissions
     public class AuditLogs
     {
         public const string SubGroup = GroupName + ".AuditLogs";
-        public const string EntityChange = SubGroup + ".EntityChange";
+        public const string EntityChange = SubGroup + ".EntityChanges";
     }
     
     public static string[] GetAll()

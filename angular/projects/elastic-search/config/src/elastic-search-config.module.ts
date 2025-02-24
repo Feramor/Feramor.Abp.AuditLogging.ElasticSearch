@@ -1,7 +1,9 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { provideElasticSearchConfig } from './public-api';
+import { provideElasticSearchConfig } from './providers';
 
-@NgModule()
+@NgModule(
+
+)
 export class ElasticSearchConfigModule {
   static forRoot(): ModuleWithProviders<ElasticSearchConfigModule> {
     return {

@@ -210,9 +210,9 @@ public class ElasticSearchManager : DomainService, IElasticSearchManager
             throw new BusinessException(ElasticSearchErrorCodes.DeleteIndicesFailed, response.ApiCallDetails.OriginalException?.Message);
         }
     }
-    public async Task<List<ElasticSearchAuditLog?>?> GetListAsync(string sorting = null, int maxResultCount = 50, int skipCount = 0, DateTime? startTime = null,
-        DateTime? endTime = null, string httpMethod = null, string url = null, string clientId = null, Guid? userId = null,
-        string userName = null, string applicationName = null, string clientIpAddress = null, string correlationId = null,
+    public async Task<List<ElasticSearchAuditLog?>?> GetListAsync(string? sorting = null, int maxResultCount = 50, int skipCount = 0, DateTime? startTime = null,
+        DateTime? endTime = null, string? httpMethod = null, string? url = null, string? clientId = null, Guid? userId = null,
+        string? userName = null, string? applicationName = null, string? clientIpAddress = null, string? correlationId = null,
         int? maxExecutionDuration = null, int? minExecutionDuration = null, bool? hasException = null,
         HttpStatusCode? httpStatusCode = null, bool includeDetails = false, CancellationToken cancellationToken = default)
     { 
@@ -229,7 +229,16 @@ public class ElasticSearchManager : DomainService, IElasticSearchManager
             throw new BusinessException(ElasticSearchErrorCodes.GetLogsFailed, response.ApiCallDetails.OriginalException?.Message);
         }
         
-        return response.Hits.Select(hit => hit.Source)?.ToList();
+        return response.Hits.Select(hit => hit.Source)?.Select(x =>
+        {
+            if (includeDetails)
+            {
+                return x;
+            }
+            x?.Actions.Clear();
+            x?.EntityChanges.Clear();
+            return x;
+        }).ToList();
     }
 
     public async Task<long> GetCountAsync(DateTime? startTime = null, DateTime? endTime = null, string? httpMethod = null, string? url = null,
@@ -241,7 +250,9 @@ public class ElasticSearchManager : DomainService, IElasticSearchManager
         var index = $"{ElasticSearchAuditLogSettings.Index}-*";
         var response = await ElasticsearchClient.CountAsync<ElasticSearchAuditLog>(s => s
                 .Indices(index)
-                .Query(GenerateQuery(startTime, endTime, httpMethod, url, clientId, userId, userName, applicationName, clientIpAddress, correlationId, maxExecutionDuration, minExecutionDuration, hasException, httpStatusCode))
+                .Query(GenerateQuery(startTime, endTime, httpMethod, url, clientId, userId, userName, 
+                    applicationName, clientIpAddress, correlationId, maxExecutionDuration, 
+                    minExecutionDuration, hasException, httpStatusCode))
             , cancellationToken);
         if (!response.IsValidResponse)
         {
@@ -250,20 +261,24 @@ public class ElasticSearchManager : DomainService, IElasticSearchManager
         return response.Count;
     }
 
-    private static BoolQuery GenerateQuery(
-        DateTime? startTime = null,
-        DateTime? endTime = null,
-        string? httpMethod = null,
-        string? url = null,
-        string? clientId = null,
-        Guid? userId = null,
-        string? userName = null,
-        string? applicationName = null,
-        string? clientIpAddress = null,
-        string? correlationId = null,
-        int? maxExecutionDuration = null,
-        int? minExecutionDuration = null,
-        bool? hasException = null,
+    public async Task<ElasticSearchAuditLog?> GetAsync(string id, CancellationToken cancellationToken = default)
+    {
+        var index = $"{ElasticSearchAuditLogSettings.Index}-*";
+        var response = await ElasticsearchClient.SearchAsync<ElasticSearchAuditLog>(s => s
+                .Index(index)
+                .Query(GenerateQuery(id))
+            , cancellationToken);
+        if (!response.IsValidResponse)
+        {
+            throw new BusinessException(ElasticSearchErrorCodes.GetLogsFailed, response.ApiCallDetails.OriginalException?.Message);
+        }
+        return response.Hits.Select(hit => hit.Source)?.FirstOrDefault();
+    }
+
+    private static BoolQuery GenerateQuery(DateTime? startTime = null, DateTime? endTime = null, string? httpMethod = null, 
+        string? url = null, string? clientId = null, Guid? userId = null, string? userName = null, 
+        string? applicationName = null, string? clientIpAddress = null, string? correlationId = null, 
+        int? maxExecutionDuration = null, int? minExecutionDuration = null, bool? hasException = null, 
         HttpStatusCode? httpStatusCode = null)
     {
         var query = new BoolQuery
@@ -283,7 +298,7 @@ public class ElasticSearchManager : DomainService, IElasticSearchManager
         {
             query.Must.Add(new DateRangeQuery("executionTime")
             {
-                Gte = new DateMathExpression(endTime.Value),
+                Lte = new DateMathExpression(endTime.Value),
             });
         }
         
@@ -345,7 +360,6 @@ public class ElasticSearchManager : DomainService, IElasticSearchManager
         {
             query.Must.Add(new TermQuery(nameof(clientIpAddress))
             {
-                CaseInsensitive = true,
                 Value = clientIpAddress
             });
         }  
@@ -359,17 +373,17 @@ public class ElasticSearchManager : DomainService, IElasticSearchManager
             });
         }  
         
-        if (maxExecutionDuration.HasValue && maxExecutionDuration > 0)
+        if (maxExecutionDuration is > 0)
         {
-            query.Must.Add(new NumberRangeQuery(nameof(maxExecutionDuration))
+            query.Must.Add(new NumberRangeQuery("executionDuration")
             {
                 Lte = maxExecutionDuration,
             });
         }
         
-        if (minExecutionDuration.HasValue && minExecutionDuration > 0)
+        if (minExecutionDuration is > 0)
         {
-            query.Must.Add(new NumberRangeQuery(nameof(minExecutionDuration))
+            query.Must.Add(new NumberRangeQuery("executionDuration")
             {
                 Gte = minExecutionDuration,
             });
@@ -398,7 +412,7 @@ public class ElasticSearchManager : DomainService, IElasticSearchManager
             }
         }
         
-        if (httpStatusCode.HasValue && httpStatusCode > 0)
+        if (httpStatusCode is > 0)
         {
             query.Must.Add(new TermQuery(nameof(httpStatusCode))
             {
@@ -408,9 +422,26 @@ public class ElasticSearchManager : DomainService, IElasticSearchManager
         
         return query;
     }
+    
+        private static BoolQuery GenerateQuery(string id)
+    {
+        var query = new BoolQuery
+        {
+            Must = new List<Query>()
+        };
+        
+        if (!id.IsNullOrWhiteSpace())
+        {
+            query.Must.Add(new IdsQuery()
+            {
+                Values = new Ids(id.ToString())
+            });
+        }  
+        
+        return query;
+    }
 
-    private static SortOptionsDescriptor<T> GenerateSort<T>(
-        string? sorting = null)
+    private static SortOptionsDescriptor<T> GenerateSort<T>(string? sorting = null)
     {
         string sortField = "executionTime";
         string sortOrder = "DESC";
@@ -418,7 +449,7 @@ public class ElasticSearchManager : DomainService, IElasticSearchManager
         if (!sorting.IsNullOrWhiteSpace())
         {
             sortField = sorting.Split(' ').First();
-            sortOrder = sorting.Contains("DESC") ? "DESC" : "ASC";
+            sortOrder = sorting.ToUpper().Contains("DESC") ? "DESC" : "ASC";
         }
 
         return new SortOptionsDescriptor<T>().Field(sortField, new FieldSort

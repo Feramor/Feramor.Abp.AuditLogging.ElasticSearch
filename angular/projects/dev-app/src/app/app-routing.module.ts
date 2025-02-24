@@ -26,7 +26,7 @@ const routes: Routes = [
       import('@abp/ng.setting-management').then(m => m.SettingManagementModule.forLazy()),
   },
   {
-    path: 'elastic-search',
+    path: 'es-audit-logs',
     loadChildren: () =>
       import('@feramor/ng.abp-audit-logging-elastic-search').then(m => m.ElasticSearchModule.forLazy()),
   },

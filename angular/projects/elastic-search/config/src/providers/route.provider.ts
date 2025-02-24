@@ -1,6 +1,10 @@
 import { eLayoutType, RoutesService } from '@abp/ng.core';
 import { APP_INITIALIZER } from '@angular/core';
-import { eElasticSearchRouteNames } from '../enums';
+import { eThemeSharedRouteNames } from '@abp/ng.theme.shared';
+import {
+  eElasticSearchPolicyNames,
+  eElasticSearchRouteNames
+} from '@feramor/ng.abp-audit-logging-elastic-search/common';
 
 export const ELASTIC_SEARCH_ROUTE_PROVIDERS = [
   {
@@ -15,11 +19,13 @@ export function configureRoutes(routesService: RoutesService) {
   return () => {
     routesService.add([
       {
-        path: '/elastic-search',
-        name: eElasticSearchRouteNames.ElasticSearch,
-        iconClass: 'fas fa-book',
+        name: eElasticSearchRouteNames.ElasticSearchAuditLogging,
+        path: '/es-audit-logs',
+        parentName: eThemeSharedRouteNames.Administration,
         layout: eLayoutType.application,
-        order: 3,
+        iconClass: 'fa fa-file-text',
+        order: 6,
+        requiredPolicy: eElasticSearchPolicyNames.AuditLogs,
       },
     ]);
   };
